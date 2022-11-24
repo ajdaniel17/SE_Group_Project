@@ -4,31 +4,47 @@ import tkinter as tk
 import os
 import sqlite3 
 
-
+Accounts= ["Admin", "AdminPassword"] 
 root = tk.Tk()
 root.geometry('300x400')
 root.title('Tkinter hub')
 
+global startvar
+
+fileName= "passowrds.txt"
 
 
-def create_database():
-    #If not exist, create file
-    if not os.path.exists('accounts_data.db'):   
-        connection = sqlite3.connect('accounts_data.db')
 
-        cursor = connection.cursor()
-        cursor.execute("""  
-        
-        CREATE TABLE accounts(
 
-        username text,
-        passowrd text,
+def updateList():
+    #Accounts= ["Admin", "AdminPassword"] 
+    with open(fileName,'r') as file:
+        # reading each line    
+        for line in file:
+            # reading each word        
+            for word in line.split():
+                if(word=="Username" or word=="Password"):
+                    continue
+                else:  
+                    Accounts.append(word)  
+    file.close() 
 
-        )
+#    varNum= 1 for password, 0 for username, stringThing is search name
+def searchList(varNum, stringThing):
+    with open(fileName, 'r') as file:
+        size = len(Accounts)
+        for x in range(size):
+            if (x % 2 ==varNum):
+                print(Accounts[x])
+                if(Accounts[x]==stringThing):
+                    print("Found string")
+                    return 1;
+    return 0;        
+    file.close()
 
-        """)
-        connection.commit()
-        connection.close()
+
+
+
 
 def message_box(msg):
     message_frame = tk.Frame(root, relief=tk.SOLID, highlightthickness=2,highlightbackground='gray')
@@ -43,14 +59,18 @@ def message_box(msg):
     message_frame.place(x=40,y=100, width=230, height=180)
 
 def register_account(username, password):
-    with open ("UserDatabase.txt", 'a')as file:
-        file.write(",Username:")
-        file.write(username)
-        file.write(",password:")
-        file.write(password)
-        file.close()
-        pass
-
+    try:
+        with open (fileName, 'a')as file:
+            file.write("Username ")
+            file.write(username)
+            file.write(" Password ")
+            file.write(password)
+            file.write("\n")
+            file.close()
+            pass
+        return True
+    except Exception as error:    
+        return False
 def login_page():
     def forward_register_page():
         login_frame.destroy()
@@ -98,8 +118,17 @@ def register_page():
         if username.get() != '':    #if username not empty and password not empty
             if password.get() != '':
                 if repeat_password.get() == password.get():
-                    register_account(username = username.get(), password= password.get())
-                    print("running register")
+                    # send a 0 for passwords, 
+                    if searchList(0, username.get()) ==0 :
+                        response = register_account(username = username.get(), password= password.get())
+                        print("running register")
+                        if response:
+                            username.delete(0, tk.END)
+                            password.delete(0, tk.END)
+                            repeat_password.delete(0, tk.END)
+                            message_box(msg='Account Created') 
+                    else:
+                         message_box(msg='Username \n already exists')     
                 else:
                     message_box(msg='Error: Passwords dont match')    
             else:
@@ -149,9 +178,14 @@ with open ("UserDatabase.txt", 'r')as file:
     print(var)
     file.close()
     pass
+updateList()
+print(searchList(0, "tim"))
+#updateList()
 
-create_database()
+print(Accounts)          
+
+#create_database()
 login_page()
 #register_page()
-message_box('Error')
+#message_box('Error')
 root.mainloop()

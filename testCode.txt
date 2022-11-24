@@ -1,0 +1,22 @@
+# opening the file in read mode
+fileName="passwords.txt"
+Accounts= ["Admin", "AdminPassword"] 
+
+def updateList():
+  with open(fileName,'r') as file:
+      # reading each line    
+      for line in file:
+     
+          # reading each word        
+          for word in line.split():
+            if(word=="Username" or word=="Password"):
+              continue
+            else:  
+              Accounts.append(word)  
+  file.close()           
+  
+updateList()    
+updateList()          
+
+print(Accounts)          
+
