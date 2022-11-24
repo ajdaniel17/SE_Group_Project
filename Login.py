@@ -42,6 +42,16 @@ def searchList(varNum, stringThing):
     return 0;        
     file.close()
 
+def verifyStuff(username, password):
+  size = len(Accounts)
+  for x in range(size):
+    if (x % 2 ==0):
+      if(Accounts[x]==username):
+        if(Accounts[x+1]==password):
+          print("Found string")
+          return 1;
+        else:  
+          return 0; 
 
 
 
@@ -71,10 +81,59 @@ def register_account(username, password):
         return True
     except Exception as error:    
         return False
+
+def dashboard(username):
+    def logout():
+        dashboard_frame.destroy()
+        login_page()
+
+
+    dashboard_frame = tk.Frame(root)
+    hi_lb = tk.Label(dashboard_frame, text = f'!HI {username}\n Welcome',
+                        font = ('Bold',20))
+    hi_lb.pack(pady = 10)
+
+    delete_account_btn = tk.Button(dashboard_frame,
+                            text='Delete Account',
+                            bg= 'red', fg='white', font= ('Bold',15),
+                            width=20)
+    delete_account_btn.pack(side=tk.BOTTOM, pady=10)
+
+    logout_btn = tk.Button(dashboard_frame,
+                            text='logout',
+                            bg= '#158aff', fg='white', font= ('Bold',15),
+                            width=20, command=logout)
+    logout_btn.pack(side=tk.BOTTOM, pady=10)
+
+    dashboard_frame.pack()
+    dashboard_frame.pack_propagate(False)
+    dashboard_frame.configure(height=400, width=300)
+
+
+
 def login_page():
     def forward_register_page():
         login_frame.destroy()
         register_page()
+
+    def verify():
+        if username.get() !='':
+            if password.get() !='':
+                if searchList(0, username.get()) != 0 :
+                    if verifyStuff(username.get(), password.get()):
+                        #message_box(msg= "Success")
+                        name=username.get()
+                        login_frame.destroy()
+                        dashboard(username=name)
+                    else:
+                        message_box(msg= "Failure")
+                else:
+                    message_box(msg= "No username \nfound")
+
+            else:
+                message_box(msg= "Password is required")
+        else:
+            message_box(msg= "Username is required")        
 
     login_frame = tk.Frame(root)
 
@@ -94,7 +153,7 @@ def login_page():
     password.place(x=50, y=160, width=150, height=30)                    
 
     login_btn = tk.Button(login_frame, text='Login', font=('Bold',12),
-                            bg= '#158aff', fg='white')
+                            bg= '#158aff', fg='white', command=verify)
     login_btn.place(x=50, y=220, width=150)   
 
     register_page_link = tk.Button(login_frame, text='Register',
@@ -186,6 +245,7 @@ print(Accounts)
 
 #create_database()
 login_page()
+#dashboard(username="hilo")
 #register_page()
 #message_box('Error')
 root.mainloop()
