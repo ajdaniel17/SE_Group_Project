@@ -12,7 +12,8 @@ root.title('Tkinter hub')
 global startvar
 
 fileName= "passowrds.txt"
-
+tempName ='admin'
+state = '' 
 
 
 #################################   File stuff    #########################################################
@@ -86,7 +87,10 @@ def message_box(msg):
 def dashboard(username):
     def logout():
         dashboard_frame.destroy()
-        login_page()
+        global state
+        state = 'Login'
+        mainMenu()
+        #login_page()
 
 
     dashboard_frame = tk.Frame(root)
@@ -94,11 +98,7 @@ def dashboard(username):
                         font = ('Bold',20))
     hi_lb.pack(pady = 10)
 
-    delete_account_btn = tk.Button(dashboard_frame,
-                            text='Delete Account',
-                            bg= 'red', fg='white', font= ('Bold',15),
-                            width=20)
-    delete_account_btn.pack(side=tk.BOTTOM, pady=10)
+   
 
     logout_btn = tk.Button(dashboard_frame,
                             text='logout',
@@ -114,8 +114,11 @@ def dashboard(username):
 
 def login_page():
     def forward_register_page():
+        #register_page()
+        global state
+        state = 'Register'
         login_frame.destroy()
-        register_page()
+        mainMenu()
 
     def verify():
         if username.get() !='':
@@ -125,7 +128,13 @@ def login_page():
                         #message_box(msg= "Success")
                         name=username.get()
                         login_frame.destroy()
-                        dashboard(username=name)
+                        global state
+                        state = 'Dashboard'
+                        print("state is {state}")
+                        global tempName
+                        tempName=name
+                        mainMenu()
+                        #dashboard(username=name)
                     else:
                         message_box(msg= "Failure")
                 else:
@@ -173,7 +182,11 @@ def login_page():
 def register_page():
     def forward_login_page():
         register_frame.destroy()
-        login_page()
+        #login_page()
+        global state
+        state = 'Login'
+
+        mainMenu()
     def verify():
         if username.get() != '':    #if username not empty and password not empty
             if password.get() != '':
@@ -199,6 +212,7 @@ def register_page():
                 message_box(msg='Error: Password empty')        
         else:
             message_box(msg='Error: Username empty')
+    ###        
     register_frame =tk.Frame(root)
 
     username_lb = tk.Label(register_frame, text='Enter Username', font=('Bold',12))
@@ -243,15 +257,27 @@ with open ("UserDatabase.txt", 'r')as file:
     file.close()
     pass
 
-updateList()
+"""
 print(searchList(0, "tim"))
-#updateList()
-
 print(Accounts)          
-
-#create_database()
 login_page()
-#dashboard(username="hilo")
-#register_page()
-#message_box('Error')
+"""
+
+updateList()
+login_page()
+
+def mainMenu():
+    if state == 'Login':
+        print("login State")
+        login_page()
+    elif state == "Register":
+        print("Register State")
+        register_page() 
+    elif state == "Dashboard":
+        print("Dashboard State")
+        dashboard(tempName) 
+    else:
+        print("Please choose correct answer")
+mainMenu()
+
 root.mainloop()
