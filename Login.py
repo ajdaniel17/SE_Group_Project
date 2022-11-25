@@ -1,18 +1,24 @@
-#<a href="https://www.flaticon.com/free-icons/show-password" title="show password icons">Show password icons created by Freepik - Flaticon</a>
+#https://www.youtube.com/watch?v=yuuDJ3-EdNQ&ab_channel=Codemy.com
+#https://www.youtube.com/watch?v=zU6ElvwaZIs&ab_channel=TkinterHub
 
 import tkinter as tk
 import os
 import sqlite3 
+from tkinter import *
+from tkinter import ttk
+
 
 Accounts= ["Admin", "AdminPassword"] 
 root = tk.Tk()
-root.geometry('300x400')
+#              Xaxis, Yaxis
+root.geometry('1000x600')
 root.title('Tkinter hub')
 
 global startvar
 
 fileName= "passowrds.txt"
-
+tempName ='admin'
+state = '' 
 
 
 #################################   File stuff    #########################################################
@@ -85,21 +91,48 @@ def message_box(msg):
 
 def dashboard(username):
     def logout():
-        dashboard_frame.destroy()
-        login_page()
+        main_frame.destroy()
+        second_frame.destroy()
+        global state
+        state = 'Login'
+        mainMenu()
+        #login_page()
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
 
 
+    for thing in range(100):
+        Button(second_frame, text = f'Button{thing} Yo!' ).grid(row=thing, column=0, pady=10,padx=10 )
+
+    Button(second_frame, text = f'Logout',command= logout).grid(row=thing+1, column=0, pady=10,padx=10 )
+
+
+    my_label = Label(second_frame, text="its friday").grid(row=3, column=2)
+    
+    """
     dashboard_frame = tk.Frame(root)
     hi_lb = tk.Label(dashboard_frame, text = f'!HI {username}\n Welcome',
                         font = ('Bold',20))
     hi_lb.pack(pady = 10)
-
-    delete_account_btn = tk.Button(dashboard_frame,
-                            text='Delete Account',
-                            bg= 'red', fg='white', font= ('Bold',15),
-                            width=20)
-    delete_account_btn.pack(side=tk.BOTTOM, pady=10)
-
+    #############Buttons below #####
     logout_btn = tk.Button(dashboard_frame,
                             text='logout',
                             bg= '#158aff', fg='white', font= ('Bold',15),
@@ -109,13 +142,16 @@ def dashboard(username):
     dashboard_frame.pack()
     dashboard_frame.pack_propagate(False)
     dashboard_frame.configure(height=400, width=300)
-
+    """
 
 
 def login_page():
     def forward_register_page():
+        #register_page()
+        global state
+        state = 'Register'
         login_frame.destroy()
-        register_page()
+        mainMenu()
 
     def verify():
         if username.get() !='':
@@ -125,7 +161,13 @@ def login_page():
                         #message_box(msg= "Success")
                         name=username.get()
                         login_frame.destroy()
-                        dashboard(username=name)
+                        global state
+                        state = 'Dashboard'
+                        print("state is {state}")
+                        global tempName
+                        tempName=name
+                        mainMenu()
+                        #dashboard(username=name)
                     else:
                         message_box(msg= "Failure")
                 else:
@@ -173,7 +215,11 @@ def login_page():
 def register_page():
     def forward_login_page():
         register_frame.destroy()
-        login_page()
+        #login_page()
+        global state
+        state = 'Login'
+
+        mainMenu()
     def verify():
         if username.get() != '':    #if username not empty and password not empty
             if password.get() != '':
@@ -199,6 +245,7 @@ def register_page():
                 message_box(msg='Error: Password empty')        
         else:
             message_box(msg='Error: Username empty')
+    ###        
     register_frame =tk.Frame(root)
 
     username_lb = tk.Label(register_frame, text='Enter Username', font=('Bold',12))
@@ -242,16 +289,61 @@ with open ("UserDatabase.txt", 'r')as file:
     print(var)
     file.close()
     pass
+####################################Scroll##################################################
+def ScrollWindow():
+    #main frame
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
+
+
+    for thing in range(100):
+        Button(second_frame, text = f'Button{thing} Yo!' ).grid(row=thing, column=0, pady=10,padx=10 )
+
+    Button(second_frame, text = f'Avengers' ).grid(row=thing, column=0, pady=10,padx=10 )
+
+
+    my_label = Label(second_frame, text="its friday").grid(row=3, column=2)
+######################################################################################
+"""
+print(searchList(0, "tim"))
+print(Accounts)          
+login_page()
+"""
 
 updateList()
-print(searchList(0, "tim"))
-#updateList()
-
-print(Accounts)          
-
-#create_database()
 login_page()
-#dashboard(username="hilo")
-#register_page()
-#message_box('Error')
+
+
+def mainMenu():
+    if state == 'Login':
+        print("login State")
+        login_page()
+    elif state == "Register":
+        print("Register State")
+        register_page() 
+    elif state == "Dashboard":
+        print("Dashboard State")
+        dashboard(tempName) 
+    else:
+        print("Please choose correct answer")
+mainMenu()
+
 root.mainloop()

@@ -1,19 +1,13 @@
-import tkinter as tk
-import os
-import sqlite3 
 from tkinter import *
 from tkinter import ttk
 
 
-root = tk.Tk()
-
-#root = Tk()
+root = Tk()
 root.title('Scroll Bar')
 #root.iconbitmap('c:/gui/codemy.ico')
 root.geometry("1000x600")
 
-def printMessage():
-    print("Worked")
+
 ######################################################################
 def ScrollWindow():
     def logout():
@@ -44,12 +38,8 @@ def ScrollWindow():
     for thing in range(100):
         Button(second_frame, text = f'Button{thing} Yo!' ).grid(row=thing, column=0, pady=10,padx=10 )
 
-    Button(second_frame, text = f'Avengers' ,font=('Bold',12), fg='red', bd=0,underline=True,
-                         command=logout).grid(row=thing, column=0, pady=10,padx=10 )
-
-    #login_btn = tk.Button(second_frame, text='Login', font=('Bold',12),
-     #                       bg= '#158aff', fg='white', command=printMessage)
-    #slogin_btn.place(x=50, y=220, width=150) 
+    Button(second_frame, text = f'Avengers' ).grid(row=thing, column=0, pady=10,padx=10 )
+    
 
     my_label = Label(second_frame, text="its friday").grid(row=3, column=2)
 
