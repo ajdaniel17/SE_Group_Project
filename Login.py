@@ -19,11 +19,16 @@ global startvar
 fileName= "passowrds.txt"
 tempName ='admin'
 state = '' 
+movieState=0
+currentCustomer=''
+#########################
+movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
 
 
 #################################   File stuff    #########################################################
 def updateList():
-    #Accounts= ["Admin", "AdminPassword"] 
+    global Accounts
+    Accounts= ["Admin", "AdminPassword"] 
     with open(fileName,'r') as file:
         # reading each line    
         for line in file:
@@ -74,7 +79,7 @@ def register_account(username, password):
         return False
 
 
-#################################   display stuff    ###################################################
+#################################   Message Box    ###################################################
 
 def message_box(msg):
     message_frame = tk.Frame(root, relief=tk.SOLID, highlightthickness=2,highlightbackground='gray')
@@ -89,62 +94,271 @@ def message_box(msg):
     message_frame.place(x=40,y=100, width=230, height=180)
 
 
-def dashboard(username):
+
+
+##################################DDDDAAASSSSHHHBBOOAARRDD#########################
+def dashboard():
     def logout():
-        main_frame.destroy()
-        second_frame.destroy()
+        display_frame.destroy()
         global state
         state = 'Login'
         mainMenu()
-        #login_page()
+    def forward_upcomming_page():
+        display_frame.destroy()
+        global state
+        state = 'UpcomingMovies'
+        mainMenu()
+    def forward_current_page():
+        display_frame.destroy()
+        global state
+        state = 'CurrentMovies'
+        mainMenu()    
+    def forward_search_page():
+        display_frame.destroy()
+        global state
+        state = 'SearchMovie'
+        mainMenu()   
+        
+
+    display_frame = tk.Frame(root)
+
+    #messages
+    message = tk.Label(display_frame, text= f'Home Page', font=('Bold',12))
+    message.place(x=0,y=0)
+
+    summaryText="the man went into the world and looked for somethign \n grand but could not find it"
+    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
+    sumary.place(x=0,y=50)
+
+    #Buttons
+    current_btn = tk.Button(display_frame, text='Current Movies',command=forward_current_page, font=('Bold',12),
+                            bg= 'green', fg='white', )
+    current_btn.place(x=0, y=100, width=150)   
+    upcomming_btn = tk.Button(display_frame, text='Upcoming movies',command=forward_upcomming_page, font=('Bold',12),
+                            bg= 'green', fg='white', )
+    upcomming_btn.place(x=0, y=200, width=150)   
+    search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
+                            bg= 'green', fg='white', command=forward_search_page)
+    search_btn.place(x=0, y=300, width=150)   
+
+    logout_btn = tk.Button(display_frame, text='Logout',command=logout, font=('Bold',12),
+                            bg= 'red', fg='black', )
+    logout_btn.place(x=0, y=400, width=150)  
+
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+    display_frame.configure(height=1000, width=600)
+    print(currentCustomer)
+def searchMovie():
+    def forward_dashboard_page():
+        global state
+        state = 'Dashboard'
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        mainMenu()
+
+    def display(movieNum):
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        global movieState
+        movieState=movieNum
+        global state
+        state = 'Display'
+        mainMenu()
+
     main_frame= Frame(root)
     main_frame.pack(fill=BOTH, expand=1)
 
     #Create a canvas
     my_canvas = Canvas(main_frame)
     my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
-
     #scroll bar
     my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
     my_scrollbar.pack(side=RIGHT, fill=Y)
-
     #Configure the canvas
     my_canvas.configure(yscrollcommand = my_scrollbar.set)
     my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
-
     #Create Another frame inside the canvas
     second_frame = Frame(my_canvas)
-
     #add frame
     my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
-
-
-    for thing in range(100):
-        Button(second_frame, text = f'Button{thing} Yo!' ).grid(row=thing, column=0, pady=10,padx=10 )
-
-    Button(second_frame, text = f'Logout',command= logout).grid(row=thing+1, column=0, pady=10,padx=10 )
-
-
-    my_label = Label(second_frame, text="its friday").grid(row=3, column=2)
+    #
+    message = tk.Label(second_frame, text= f'Search for Movies', 
+    font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
+    #message.place(x=120,y=0)
     
-    """
-    dashboard_frame = tk.Frame(root)
-    hi_lb = tk.Label(dashboard_frame, text = f'!HI {username}\n Welcome',
-                        font = ('Bold',20))
-    hi_lb.pack(pady = 10)
-    #############Buttons below #####
-    logout_btn = tk.Button(dashboard_frame,
-                            text='logout',
-                            bg= '#158aff', fg='white', font= ('Bold',15),
-                            width=20, command=logout)
-    logout_btn.pack(side=tk.BOTTOM, pady=10)
+    global movies
+    for thing in range( len(movies) ):
+        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
-    dashboard_frame.pack()
-    dashboard_frame.pack_propagate(False)
-    dashboard_frame.configure(height=400, width=300)
-    """
+    Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
+                command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
+    print(currentCustomer)
+def currentMovies():
+    def forward_dashboard_page():
+        global state
+        state = 'Dashboard'
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        mainMenu()
+
+    def display(movieNum):
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        global movieState
+        movieState=movieNum
+        global state
+        state = 'Display'
+        mainMenu()
+
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
+    #
+    message = tk.Label(second_frame, text= f'Current \nMovies', 
+    font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
+    #message.place(x=120,y=0)
+    
+    global movies
+    for thing in range( len(movies) ):
+        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+
+    Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
+                command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
+    print(currentCustomer)
+
+def upcomingMovies():
+    def forward_dashboard_page():
+        global state
+        state = 'Dashboard'
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        mainMenu()
+
+    def display(movieNum):
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        global movieState
+        movieState=movieNum
+        global state
+        state = 'Display'
+        mainMenu()
+
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
+    #
+    message = tk.Label(second_frame, text= f'Upcoming\nMovies', 
+    font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
+    #message.place(x=120,y=0)
+    
+    global movies
+    for thing in range( len(movies) ):
+        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+
+    Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
+                command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
+    print(currentCustomer)
+
+def displayMovie(movie):
+    def forward_dashboard_page():
+        global state
+        state = 'Dashboard'
+        display_frame.destroy()
+        mainMenu()
+    def forward_purchase_page():
+        display_frame.destroy()
+        global state
+        state = 'PurchaseTickets'
+        mainMenu()
+    display_frame = tk.Frame(root)
+
+    #messages
+    message = tk.Label(display_frame, text= f'Movie: {movies[movie]}', font=('Bold',12))
+    message.place(x=0,y=0)
+
+    summaryText="the man went into the world and looked for somethign \n grand but could not find it"
+    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
+    sumary.place(x=0,y=50)
+
+    #Buttons
+    return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
+                            bg= '#158aff', fg='white', command=forward_dashboard_page)
+    return_to_dashboard.place(x=350, y=0, width=150)  
+
+    purchase_ticket = tk.Button(display_frame, text='Purchase Ticket', font=('Bold',12),
+                            bg= 'green', fg='white', command=forward_purchase_page)
+    purchase_ticket.place(x=0, y=400, width=150)   
 
 
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+
+    display_frame.configure(height=1000, width=600)
+    print(currentCustomer)
+
+def purchaseTickets():
+    def forward_Dashboard():
+        display_frame.destroy()
+        global state
+        state = 'Dashboard'
+        mainMenu()
+       
+    display_frame = tk.Frame(root)
+
+    #messages
+    message = tk.Label(display_frame, text= f'Purchase Tickets', font=('Bold',12))
+    message.place(x=0,y=0)
+
+    summaryText="Here you may purchase tickets"
+    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
+    sumary.place(x=0,y=50)
+
+    #Buttons
+    #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
+     #                       bg= 'green', fg='white', )
+    #search_btn.place(x=0, y=300, width=150)   
+
+    logout_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Dashboard, font=('Bold',12),
+                            bg= 'red', fg='black', )
+    logout_btn.place(x=0, y=400, width=150)  
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+    display_frame.configure(height=1000, width=600)
+    print(currentCustomer)        
+##########################################Account Stuff below#########################################################
 def login_page():
     def forward_register_page():
         #register_page()
@@ -163,9 +377,9 @@ def login_page():
                         login_frame.destroy()
                         global state
                         state = 'Dashboard'
+                        global currentCustomer
+                        currentCustomer=name
                         print("state is {state}")
-                        global tempName
-                        tempName=name
                         mainMenu()
                         #dashboard(username=name)
                     else:
@@ -231,10 +445,8 @@ def register_page():
                         if response:
                             username.delete(0, tk.END)
                             password.delete(0, tk.END)
-                            Accounts=["Admin", "AdminPassword"]
                             updateList()
                             print(Accounts)
-
                             repeat_password.delete(0, tk.END)
                             message_box(msg='Account Created') 
                     else:
@@ -289,48 +501,21 @@ with open ("UserDatabase.txt", 'r')as file:
     print(var)
     file.close()
     pass
-####################################Scroll##################################################
-def ScrollWindow():
-    #main frame
-    main_frame= Frame(root)
-    main_frame.pack(fill=BOTH, expand=1)
 
-    #Create a canvas
-    my_canvas = Canvas(main_frame)
-    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
-
-    #scroll bar
-    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
-    my_scrollbar.pack(side=RIGHT, fill=Y)
-
-    #Configure the canvas
-    my_canvas.configure(yscrollcommand = my_scrollbar.set)
-    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
-
-    #Create Another frame inside the canvas
-    second_frame = Frame(my_canvas)
-
-    #add frame
-    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
-
-
-    for thing in range(100):
-        Button(second_frame, text = f'Button{thing} Yo!' ).grid(row=thing, column=0, pady=10,padx=10 )
-
-    Button(second_frame, text = f'Avengers' ).grid(row=thing, column=0, pady=10,padx=10 )
-
-
-    my_label = Label(second_frame, text="its friday").grid(row=3, column=2)
-######################################################################################
 """
 print(searchList(0, "tim"))
 print(Accounts)          
 login_page()
 """
 
+
+
+#displayMovie(2)
+#upcomingMovies("tim")
+
+
 updateList()
 login_page()
-
 
 def mainMenu():
     if state == 'Login':
@@ -341,9 +526,31 @@ def mainMenu():
         register_page() 
     elif state == "Dashboard":
         print("Dashboard State")
-        dashboard(tempName) 
+        dashboard() 
+    elif state == "CurrentMovies":
+        print("Display movie State")
+        currentMovies()
+    elif state == "UpcomingMovies":
+        print("Display movie State")
+        upcomingMovies()
+    elif state == "SearchMovie":
+        print("Display movie State")  
+        searchMovie()  
+    elif state == "Display":
+        print("Display movie State")
+        #print(movieState)
+        displayMovie(movieState)
+        #state='Login'
+        #dashboard(tempName) 
+    elif state == "PurchaseTickets":
+        print("Purchase movie State")
+        purchaseTickets()
+        #print(movieState)
+        #state='Login'
+        #dashboard(tempName)     
     else:
         print("Please choose correct answer")
 mainMenu()
+
 
 root.mainloop()
