@@ -8,7 +8,7 @@ from tkinter import *
 from tkinter import ttk
 
 
-Accounts= ["Admin", "AdminPass"] 
+Accounts= ["Admin", "AdminPassword"] 
 root = tk.Tk()
 #              Xaxis, Yaxis
 root.geometry('1000x600')
@@ -23,12 +23,12 @@ movieState=0
 currentCustomer=''
 #########################
 movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
-numMoviesSold=0
+
 
 #################################   File stuff    #########################################################
 def updateList():
     global Accounts
-    Accounts= ["Admin", "AdminPass"] 
+    Accounts= ["Admin", "AdminPassword"] 
     with open(fileName,'r') as file:
         # reading each line    
         for line in file:
@@ -93,163 +93,16 @@ def message_box(msg):
 
     message_frame.place(x=40,y=100, width=230, height=180)
 
-################################ Admin ###########################
-def AdminDashboard():
-    print("Welcome admin")
-    def logout():
-        display_frame.destroy()
-        global state
-        state = 'Login'
-        mainMenu()
-
-    def forward_Add_Remove(): 
-        display_frame.destroy()
-        global state
-        state = 'AdminAddRemove'
-        mainMenu()
-
-    def forward_Edit(): 
-        display_frame.destroy()
-        global state
-        state = 'AdminEdit'
-        mainMenu()
-
-    """    
-    def forward_upcomming_page():
-        display_frame.destroy()
-        global state
-        state = 'UpcomingMovies'
-        mainMenu()
-    def forward_current_page():
-        display_frame.destroy()
-        global state
-        state = 'CurrentMovies'
-        mainMenu()    
-    def forward_search_page():
-        display_frame.destroy()
-        global state
-        state = 'SearchMovie'
-        mainMenu()   
-    """    
-
-    display_frame = tk.Frame(root)
-
-    #messages
-    message = tk.Label(display_frame, text= f'Admin\nHome Page', font=('Bold',12))
-    message.place(x=100,y=0)
-
-    summaryText="Here you do admin stuff,\nYeah"
-    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=100,y=50)
-    #AdminAddRemove
-    #AdminEdit
-    #Buttons
-    AddRemove_btn = tk.Button(display_frame, text='Add/Remove Movies',command=forward_Add_Remove,
-                         font=('Bold',12),bg= 'green', fg='white', )
-    AddRemove_btn.place(x=100, y=150, width=150)   
-    Edit_btn = tk.Button(display_frame, text='Edit movies',command=forward_Edit, font=('Bold',12),
-                            bg= 'green', fg='white', )
-    Edit_btn.place(x=100, y=250, width=150)   
-    search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
-                            bg= 'green', fg='white', command=forward_Edit)
-    search_btn.place(x=100, y=350, width=150)   
-
-    logout_btn = tk.Button(display_frame, text='Logout',command=logout, font=('Bold',12),
-                            bg= 'red', fg='black', )
-    logout_btn.place(x=100, y=450, width=150)  
-
-    display_frame.pack(pady=10)
-    display_frame.pack_propagate(False)
-    display_frame.configure(height=600, width=1000)
-    print(currentCustomer)
-
-def AddRemoveMovie():
-    def forward_Admin_dashboard_page():
-        display_frame.destroy()
-        global state
-        state = 'AdminDashboard'
-        mainMenu()
-    def forward_display_page(movieNum):
-        display_frame.destroy()
-        global movieState
-        movieState=movieNum
-        global state
-        state = 'Display'
-        mainMenu()
-    def verifyAdd():
-        if search_movie.get() != '':
-            if(search_movie.get() in movies):
-                message_box(msg='Movie already Exists!')
-            else:
-                movies.append(search_movie.get() )
-                message_box(msg=f'{ search_movie.get() } \nhas been Added')  
-        else:
-            message_box(msg='Entry Empty')
-
-    def verifyRemove():
-        if search_movie.get() != '':
-            if(search_movie.get() in movies):
-                movies.remove(search_movie.get())
-                message_box(msg=f'{search_movie.get()}\nhas been Removed')  
-            else:
-                message_box(msg='No such movie exists')  
-        else:
-            message_box(msg='Entry Empty')           
-        
-    display_frame = tk.Frame(root)
-
-    #messages
-    message = tk.Label(display_frame, text= f'Add or Remove movie', font=('Bold',12))
-    message.place(x=100,y=0)
 
 
-    #Buttons
-    #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
-     #                       bg= 'green', fg='white', )
-    #search_btn.place(x=0, y=300, width=150)  
-    # Display text message 
-    search_movie_lb =tk.Label(display_frame, text='Enter Movie to add or remove', font=('Bold',12))
-    search_movie_lb.place(x=100, y=50) 
 
-    #text entry box
-    search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
-                        highlightthickness=2, highlightbackground='gray')
-    search_movie.place(x=100, y=100, width=150, height=30) 
-
-    #actual Add button
-    Add_btn = tk.Button(display_frame, text='Add',command=verifyAdd, font=('Bold',12),
-                            bg= 'green', fg='black', )
-    Add_btn.place(x=100, y=200, width=150)  
-
-    #actual Remove button
-    Remove_btn = tk.Button(display_frame, text='Remove',command=verifyRemove, font=('Bold',12),
-                            bg= 'green', fg='black', )
-    Remove_btn.place(x=100, y=300, width=150)  
-
-    #Dashboard button
-    dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Admin_dashboard_page, font=('Bold',12),
-                            bg= 'yellow', fg='black', )
-    dash_btn.place(x=100, y=400, width=150)  
-
-    display_frame.pack(pady=10)
-    display_frame.pack_propagate(False)
-    display_frame.configure(height=600, width=1000)
-    print(currentCustomer)        
-
-def EditMovie():
-    def logout():
-        display_frame.destroy()
-        global state
-        state = 'Login'
-        mainMenu()
-
-################################## Main User #########################
+##################################DDDDAAASSSSHHHBBOOAARRDD#########################
 def dashboard():
     def logout():
         display_frame.destroy()
         global state
         state = 'Login'
-        mainMenu()       
+        mainMenu()
     def forward_upcomming_page():
         display_frame.destroy()
         global state
@@ -271,91 +124,78 @@ def dashboard():
 
     #messages
     message = tk.Label(display_frame, text= f'Home Page', font=('Bold',12))
-    message.place(x=100,y=0)
+    message.place(x=0,y=0)
 
-    summaryText="Here you can go to the Current Movies page, \n Upcoming Movies page,\n or Search Movies page"
+    summaryText="the man went into the world and looked for somethign \n grand but could not find it"
     sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=100,y=50)
+    sumary.place(x=0,y=50)
 
     #Buttons
     current_btn = tk.Button(display_frame, text='Current Movies',command=forward_current_page, font=('Bold',12),
                             bg= 'green', fg='white', )
-    current_btn.place(x=100, y=150, width=150)   
+    current_btn.place(x=0, y=100, width=150)   
     upcomming_btn = tk.Button(display_frame, text='Upcoming movies',command=forward_upcomming_page, font=('Bold',12),
                             bg= 'green', fg='white', )
-    upcomming_btn.place(x=100, y=250, width=150)   
+    upcomming_btn.place(x=0, y=200, width=150)   
     search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
                             bg= 'green', fg='white', command=forward_search_page)
-    search_btn.place(x=100, y=350, width=150)   
+    search_btn.place(x=0, y=300, width=150)   
 
     logout_btn = tk.Button(display_frame, text='Logout',command=logout, font=('Bold',12),
                             bg= 'red', fg='black', )
-    logout_btn.place(x=100, y=450, width=150)  
+    logout_btn.place(x=0, y=400, width=150)  
 
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
-    display_frame.configure(height=600, width=1000)
+    display_frame.configure(height=1000, width=600)
     print(currentCustomer)
-
 def searchMovie():
     def forward_dashboard_page():
-        display_frame.destroy()
         global state
         state = 'Dashboard'
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
         mainMenu()
-    def forward_display_page(movieNum):
-        display_frame.destroy()
+
+    def display(movieNum):
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
         global movieState
         movieState=movieNum
         global state
         state = 'Display'
         mainMenu()
-    def verify():
-       if search_movie.get() != '':
-        if(search_movie.get() in movies):
-            forward_display_page( movies.index(search_movie.get())  )
-            print("Forwarding display page")
-        else:
-            message_box(msg='No such movie exists')    
-        
-    display_frame = tk.Frame(root)
 
-    #messages
-    message = tk.Label(display_frame, text= f'Purchase Tickets', font=('Bold',12))
-    message.place(x=0,y=0)
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
 
-    summaryText="Here you may purchase tickets"
-    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=0,y=50)
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
+    #
+    message = tk.Label(second_frame, text= f'Search for Movies', 
+    font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
+    #message.place(x=120,y=0)
+    
+    global movies
+    for thing in range( len(movies) ):
+        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
-    #Buttons
-    #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
-     #                       bg= 'green', fg='white', )
-    #search_btn.place(x=0, y=300, width=150)  
-    # Display text message 
-    search_movie_lb =tk.Label(display_frame, text='Search movie', font=('Bold',12))
-    search_movie_lb.place(x=60, y=150) 
-
-    #text entry box
-    search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
-                        highlightthickness=2, highlightbackground='gray')
-    search_movie.place(x=50, y=200, width=150, height=30) 
-
-    #actual search button
-    Search_btn = tk.Button(display_frame, text='Search',command=verify, font=('Bold',12),
-                            bg= 'green', fg='black', )
-    Search_btn.place(x=0, y=300, width=150)  
-
-    #Dashboard button
-    dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
-                            bg= 'yellow', fg='black', )
-    dash_btn.place(x=0, y=400, width=150)  
-
-    display_frame.pack(pady=10)
-    display_frame.pack_propagate(False)
-    display_frame.configure(height=1000, width=600)
-    print(currentCustomer)        
-
+    Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
+                command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
+    print(currentCustomer)
 def currentMovies():
     def forward_dashboard_page():
         global state
@@ -512,7 +352,7 @@ def purchaseTickets():
     #search_btn.place(x=0, y=300, width=150)   
 
     logout_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Dashboard, font=('Bold',12),
-                            bg= 'yellow', fg='black', )
+                            bg= 'red', fg='black', )
     logout_btn.place(x=0, y=400, width=150)  
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
@@ -527,18 +367,6 @@ def login_page():
         login_frame.destroy()
         mainMenu()
 
-    def forward_dashboard():
-        global state
-        state = 'Dashboard'
-        login_frame.destroy()
-        mainMenu()
-
-    def forward_admin_dashboard():
-        global state
-        state = 'AdminDashboard'
-        login_frame.destroy()
-        mainMenu()
-
     def verify():
         if username.get() !='':
             if password.get() !='':
@@ -546,13 +374,13 @@ def login_page():
                     if verifyAccount(username.get(), password.get()):
                         #message_box(msg= "Success")
                         name=username.get()
+                        login_frame.destroy()
+                        global state
+                        state = 'Dashboard'
                         global currentCustomer
                         currentCustomer=name
-                        login_frame.destroy()
-                        if(name=="Admin"):
-                            forward_admin_dashboard()
-                        else:    
-                            forward_dashboard()
+                        print("state is {state}")
+                        mainMenu()
                         #dashboard(username=name)
                     else:
                         message_box(msg= "Failure")
@@ -638,7 +466,7 @@ def register_page():
     username = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     username.place(x=50, y=60, width=150, height=30)
-    #enter password
+
     password_lb =tk.Label(register_frame, text='Enter Password', font=('Bold',12))
     password_lb.place(x=60, y=115) 
 
@@ -646,12 +474,13 @@ def register_page():
                         highlightthickness=2, highlightbackground='gray')
 
     password.place(x=50, y=155, width=150, height=30)     
-    #repeat password
+
     repeat_password_lb =tk.Label(register_frame, text='Repeat Password', font=('Bold',12))
     repeat_password_lb.place(x=60, y=210) 
 
     repeat_password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
+
     repeat_password.place(x=50, y=250, width=150, height=30)     
 
     register_btn = tk.Button(register_frame, text='Register', font=('Bold',12),
@@ -665,7 +494,7 @@ def register_page():
 
     register_frame.pack()
     register_frame.pack_propagate(False)
-    register_frame.configure(height= 1000, width = 600)
+    register_frame.configure(height= 400, width = 250)
 
 with open ("UserDatabase.txt", 'r')as file:
     var=file.read()
@@ -683,7 +512,6 @@ updateList()
 login_page()
 
 #state block
-
 def mainMenu():
     if state == 'Login':
         print("login State")
@@ -691,18 +519,6 @@ def mainMenu():
     elif state == "Register":
         print("Register State")
         register_page() 
-
-    ####################Admin###################    
-    elif state == "AdminDashboard":
-        print("Admin Dashboard State")
-        AdminDashboard()
-    elif state == "AdminAddRemove":
-        print("Admin Add/Remove State")
-        AddRemoveMovie()
-    elif state == "AdminEdit":
-        print("Admin Edit State")
-        EditMovie()        
-    ####################Regular People###########   
     elif state == "Dashboard":
         print("Dashboard State")
         dashboard() 
