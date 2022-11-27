@@ -154,7 +154,8 @@ def AdminDashboard():
     summaryText="Here you do admin stuff,\nYeah"
     sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
     sumary.place(x=100,y=50)
-   
+    #AdminAddRemove
+    #AdminEdit
     #Buttons
     AddRemove_btn = tk.Button(display_frame, text='Add/Remove Movies',command=forward_Add_Remove,
                          font=('Bold',12),bg= 'green', fg='white', )
@@ -277,6 +278,7 @@ def dashboard():
         state = 'SearchMovie'
         mainMenu()   
         
+
     display_frame = tk.Frame(root)
 
     #messages
@@ -536,11 +538,27 @@ def purchaseTickets():
     purchase_btn = tk.Button(display_frame, text='Add',command=make_purchase, font=('Bold',12),
                             bg= 'green', fg='black', )
     purchase_btn.place(x=100, y=200, width=150)
-       
+    ############################################
+    # Display text message 
+    #search_movie_lb =tk.Label(display_frame, text='Enter Movie to add or remove', font=('Bold',12))
+    #search_movie_lb.place(x=100, y=50) 
+    #text entry box
+    #search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+     #                   highlightthickness=2, highlightbackground='gray')
+    #search_movie.place(x=100, y=100, width=150, height=30) 
+
+    #actual Add button
+      
+    ###########################################
+
+    #Buttons
+    #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
+     #                       bg= 'green', fg='white', )
+    #search_btn.place(x=0, y=300, width=150)   
+
     logout_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Dashboard, font=('Bold',12),
                             bg= 'blue', fg='white', )
     logout_btn.place(x=100, y=400, width=150)  
-
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
@@ -594,32 +612,36 @@ def login_page():
     login_frame = tk.Frame(root)
 
     username_lb = tk.Label(login_frame, text='Enter Username', font=('Bold',12))
-    username_lb.place(x=160,y=20)
+    username_lb.place(x=60,y=20)
 
     username = tk.Entry(login_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    username.place(x=150, y=60, width=150, height=30)
+    username.place(x=50, y=60, width=150, height=30)
 
     password_lb =tk.Label(login_frame, text='Enter Password', font=('Bold',12))
-    password_lb.place(x=160, y=120) 
+    password_lb.place(x=60, y=120) 
 
     password = tk.Entry(login_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password.place(x=150, y=160, width=150, height=30)                    
+
+    password.place(x=50, y=160, width=150, height=30)                    
 
     login_btn = tk.Button(login_frame, text='Login', font=('Bold',12),
                             bg= '#158aff', fg='white', command=verify)
-    login_btn.place(x=150, y=220, width=150)   
+    login_btn.place(x=50, y=220, width=150)   
 
     register_page_link = tk.Button(login_frame, text='Register',
                         font=('Bold',12), fg='#158aff', bd=0,underline=True, command=forward_register_page)                     
-    register_page_link.place(x=190, y=260) 
+    register_page_link.place(x=90, y=260) 
+
+    
+
 
     login_frame.pack(pady=10)
     login_frame.pack_propagate(False)
 
     #login_frame.configure(height=400, width=250, bg='gray')
-    login_frame.configure(height=600, width=1000)
+    login_frame.configure(height=400, width=250)
 
 def register_page():
     def forward_login_page():
@@ -656,38 +678,39 @@ def register_page():
     register_frame =tk.Frame(root)
 
     username_lb = tk.Label(register_frame, text='Enter Username', font=('Bold',12))
-    username_lb.place(x=160,y=20)
+    username_lb.place(x=60,y=20)
 
     username = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    username.place(x=150, y=60, width=150, height=30)
+    username.place(x=50, y=60, width=150, height=30)
     #enter password
     password_lb =tk.Label(register_frame, text='Enter Password', font=('Bold',12))
-    password_lb.place(x=160, y=115) 
+    password_lb.place(x=60, y=115) 
 
     password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password.place(x=150, y=155, width=150, height=30)     
+
+    password.place(x=50, y=155, width=150, height=30)     
     #repeat password
     repeat_password_lb =tk.Label(register_frame, text='Repeat Password', font=('Bold',12))
-    repeat_password_lb.place(x=160, y=210) 
+    repeat_password_lb.place(x=60, y=210) 
 
     repeat_password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    repeat_password.place(x=150, y=250, width=150, height=30)     
+    repeat_password.place(x=50, y=250, width=150, height=30)     
 
     register_btn = tk.Button(register_frame, text='Register', font=('Bold',12),
                             bg= '#158aff', fg='white',command =verify)
-    register_btn.place(x=150, y=315, width=150)
+    register_btn.place(x=50, y=315, width=150)
 
     login_page_link = tk.Button(register_frame, text= 'Login', fg='#158aff',underline=True,
                                 font=('Bold', 12), bd=0, command=forward_login_page)
 
-    login_page_link.place(x=200, y=350 )                            
+    login_page_link.place(x=100, y=350 )                            
 
     register_frame.pack()
     register_frame.pack_propagate(False)
-    register_frame.configure(height= 600, width = 1000)
+    register_frame.configure(height= 1000, width = 600)
 
 with open ("UserDatabase.txt", 'r')as file:
     var=file.read()
@@ -695,7 +718,12 @@ with open ("UserDatabase.txt", 'r')as file:
     file.close()
     pass
 
-########################### Main Loop ###############################################
+"""
+print(searchList(0, "tim"))
+print(Accounts)          
+login_page()
+"""
+
 updateList()
 login_page()
 
