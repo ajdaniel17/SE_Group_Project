@@ -78,7 +78,17 @@ def register_account(username, password):
     except Exception as error:    
         return False
 
+def Purchase_Box(num):
+    message_frame = tk.Frame(root, relief=tk.SOLID, highlightthickness=2,highlightbackground='gray')
 
+    close_btn = tk.Button(message_frame, text='X', font=('Bold',12), bd=0,
+                            command=lambda: message_frame.destroy())
+    close_btn.pack(side=tk.TOP, anchor=tk.E)
+
+    message_lb = tk.Label(message_frame, text = f'You have purchased\n int({num}) tickets', font=('Bold',15) )
+    message_lb.pack(pady=20)
+
+    message_frame.place(x=40,y=100, width=230, height=180)
 #################################   Message Box    ###################################################
 
 def message_box(msg):
@@ -495,16 +505,44 @@ def purchaseTickets():
         global state
         state = 'Dashboard'
         mainMenu()
-       
-    display_frame = tk.Frame(root)
+       #Purchase_Box
+    def make_purchase():
+        #Purchase_Box( purchase_entry.get()  )  
+        if int(purchase_entry.get()) <=6:
+            Purchase_Box( int(purchase_entry.get())   )  
+        else:     
+            message_box(msg= "You can only\nbook 6 tickets/nat a time")
+            print("te")
+    display_frame = tk.Frame( )
 
     #messages
     message = tk.Label(display_frame, text= f'Purchase Tickets', font=('Bold',12))
-    message.place(x=0,y=0)
+    message.place(x=100,y=0)
 
-    summaryText="Here you may purchase tickets"
+    summaryText="Enter Ammount to Purchase"
     sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=0,y=50)
+    sumary.place(x=100,y=100)
+
+    purchase_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    purchase_entry.place(x=100, y=150, width=150, height=30) 
+
+
+    purchase_btn = tk.Button(display_frame, text='Add',command=make_purchase, font=('Bold',12),
+                            bg= 'green', fg='black', )
+    purchase_btn.place(x=100, y=200, width=150)
+    ############################################
+    # Display text message 
+    #search_movie_lb =tk.Label(display_frame, text='Enter Movie to add or remove', font=('Bold',12))
+    #search_movie_lb.place(x=100, y=50) 
+    #text entry box
+    #search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+     #                   highlightthickness=2, highlightbackground='gray')
+    #search_movie.place(x=100, y=100, width=150, height=30) 
+
+    #actual Add button
+      
+    ###########################################
 
     #Buttons
     #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
