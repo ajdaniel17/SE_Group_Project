@@ -6,7 +6,7 @@ import os
 import sqlite3 
 from tkinter import *
 from tkinter import ttk
-
+import user
 
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
@@ -20,7 +20,7 @@ fileName= "passowrds.txt"
 tempName ='admin'
 state = '' 
 movieState=0
-currentCustomer=''
+Customer = user.User()
 #########################
 movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
 numMoviesSold=0
@@ -173,7 +173,7 @@ def AdminDashboard():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(currentCustomer)
+    print(Customer.getname())
 
 def AddRemoveMovie():
     def forward_Admin_dashboard_page():
@@ -245,7 +245,7 @@ def AddRemoveMovie():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(currentCustomer)        
+    print(Customer.getname())        
 
 def EditMovie():
     def logout():
@@ -305,7 +305,7 @@ def dashboard():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(currentCustomer)
+    print(Customer.getname())
 
 def searchMovie():
     def forward_dashboard_page():
@@ -364,7 +364,7 @@ def searchMovie():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(currentCustomer)        
+    print(Customer.getname())        
 
 def currentMovies():
     def forward_dashboard_page():
@@ -415,7 +415,7 @@ def currentMovies():
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
-    print(currentCustomer)
+    print(Customer.getname())
 
 def upcomingMovies():
     def forward_dashboard_page():
@@ -465,7 +465,7 @@ def upcomingMovies():
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
-    print(currentCustomer)
+    print(Customer.getname())
 
 def displayMovie(movie):
     def forward_dashboard_page():
@@ -502,7 +502,7 @@ def displayMovie(movie):
     display_frame.pack_propagate(False)
 
     display_frame.configure(height=600 , width=1000)
-    print(currentCustomer)
+    print(Customer.getname())
 
 def purchaseTickets():
     def forward_Dashboard():
@@ -544,7 +544,7 @@ def purchaseTickets():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(currentCustomer)        
+    print(Customer.getname())        
 ##########################################Account Stuff below#########################################################
 def login_page():
     def forward_register_page():
@@ -569,23 +569,15 @@ def login_page():
     def verify():
         if username.get() !='':
             if password.get() !='':
-                if searchList(0, username.get()) != 0 :
-                    if verifyAccount(username.get(), password.get()):
-                        #message_box(msg= "Success")
-                        name=username.get()
-                        global currentCustomer
-                        currentCustomer=name
-                        login_frame.destroy()
-                        if(name=="Admin"):
-                            forward_admin_dashboard()
-                        else:    
-                            forward_dashboard()
-                        #dashboard(username=name)
+                if(Customer.loaduser(username.get(), password.get())):
+                    print("Sucessfully Logged in")
+                    login_frame.destroy()
+                    if(Customer.gettype() == "Admin"):
+                        forward_admin_dashboard()
                     else:
-                        message_box(msg= "Failure")
+                        forward_dashboard()
                 else:
-                    message_box(msg= "No username \nfound")
-
+                    message_box(msg = "Password Inncorrect or User does not exist!")
             else:
                 message_box(msg= "Password is required")
         else:

@@ -5,17 +5,20 @@ class User():
         self.address = ""
         self.name = ""
         self.pnumber = ""
+        self.type = ""
     
     def loaduser(self,em,pa):
         with open('UserDatabase.txt') as f:
             for line in f:
                 data = line.split(",")
+                print(data)
                 if data[0] == em and data[1] == pa:
                     self.email = data[0]
                     self.password = data[1]
                     self.name = data[2]
                     self.address = data[3]
                     self.pnumber = data[4]
+                    self.type = data[5]
                     return True
                 elif data[0] == em:
                     print("INCORRECT PASSWORD!")
@@ -34,6 +37,9 @@ class User():
     
     def getpnumber(self):
         return(self.pnumber)
+
+    def gettype(self):
+        return(self.type)
 
 # Test = User()
 # Test.loaduser("real@email.com","PASS")
