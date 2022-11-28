@@ -16,7 +16,7 @@ root.title('Tkinter hub')
 
 global startvar
 
-fileName= "passowrds.txt"
+fileName= "UserDatabase.txt"
 tempName ='admin'
 state = '' 
 movieState=0
@@ -60,18 +60,24 @@ def verifyAccount(username, password):
       if(Accounts[x]==username):
         if(Accounts[x+1]==password):
           print("Found string")
-          return 1;
+          return 1
         else:  
-          return 0; 
+          return 0
 
-def register_account(username, password):
+def register_account(email, password,username,address,pnumber):
     try:
         with open (fileName, 'a')as file:
-            file.write("Username ")
-            file.write(username)
-            file.write(" Password ")
-            file.write(password)
             file.write("\n")
+            file.write(email)
+            file.write(",")
+            file.write(password)
+            file.write(",")
+            file.write(username)
+            file.write(",")
+            file.write(address)
+            file.write(",")
+            file.write(pnumber)
+            file.write(",User,")
             file.close()
             pass
         return True
@@ -627,11 +633,14 @@ def register_page():
                 if repeat_password.get() == password.get():
                     # send a 0 for passwords, 
                     if searchList(0, username.get()) ==0 :
-                        response = register_account(username = username.get(), password= password.get())
+                        response = register_account(email=email.get(), password= password.get(),username = username.get(),address=address.get(),pnumber=pnumber.get())
                         print("running register")
                         if response:
                             username.delete(0, tk.END)
                             password.delete(0, tk.END)
+                            email.delete(0,tk.END)
+                            address.delete(0,tk.END)
+                            pnumber.delete(0,tk.END)
                             updateList()
                             print(Accounts)
                             repeat_password.delete(0, tk.END)
@@ -647,35 +656,57 @@ def register_page():
     ###        
     register_frame =tk.Frame(root)
 
+    #enter email
+    email_lb = tk.Label(register_frame, text='Enter Email', font=('Bold',12))
+    email_lb.place(x=160,y=20)
+
+    email = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    email.place(x=150, y=60, width=150, height=30)
+    #enter name
     username_lb = tk.Label(register_frame, text='Enter Username', font=('Bold',12))
-    username_lb.place(x=160,y=20)
+    username_lb.place(x=160,y=100)
 
     username = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    username.place(x=150, y=60, width=150, height=30)
+    username.place(x=150, y=140, width=150, height=30)
+    #enter address
+    address_lb = tk.Label(register_frame, text='Enter Address', font=('Bold',12))
+    address_lb.place(x=160,y=180)
+
+    address = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    address.place(x=150, y=220, width=150, height=30)
+    #enter phone number
+    pnumber_lb = tk.Label(register_frame, text='Enter Phone Number', font=('Bold',12))
+    pnumber_lb.place(x=160,y=260)
+
+    pnumber = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    pnumber.place(x=150, y=300, width=150, height=30)
     #enter password
     password_lb =tk.Label(register_frame, text='Enter Password', font=('Bold',12))
-    password_lb.place(x=160, y=115) 
+    password_lb.place(x=160, y=340) 
 
     password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password.place(x=150, y=155, width=150, height=30)     
+    password.place(x=150, y=380, width=150, height=30)     
     #repeat password
     repeat_password_lb =tk.Label(register_frame, text='Repeat Password', font=('Bold',12))
-    repeat_password_lb.place(x=160, y=210) 
+    repeat_password_lb.place(x=160, y=420) 
 
     repeat_password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    repeat_password.place(x=150, y=250, width=150, height=30)     
+    repeat_password.place(x=150, y=460, width=150, height=30)     
 
     register_btn = tk.Button(register_frame, text='Register', font=('Bold',12),
                             bg= '#158aff', fg='white',command =verify)
-    register_btn.place(x=150, y=315, width=150)
+    register_btn.place(x=150, y=500, width=150)
 
     login_page_link = tk.Button(register_frame, text= 'Login', fg='#158aff',underline=True,
                                 font=('Bold', 12), bd=0, command=forward_login_page)
 
-    login_page_link.place(x=200, y=350 )                            
+    login_page_link.place(x=200, y=540 )                            
 
     register_frame.pack()
     register_frame.pack_propagate(False)
