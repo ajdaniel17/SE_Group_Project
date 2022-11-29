@@ -247,7 +247,7 @@ def AddRemoveMovie():
     #text entry box
     search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    search_movie.place(x=100, y=100, width=150, height=30) 
+    search_movie.place(x=100, y=100, width=250, height=30) 
 
     #actual Add button
     Add_btn = tk.Button(display_frame, text='Add',command=verifyAdd, font=('Bold',12),
@@ -489,7 +489,7 @@ def searchMovie():
     #text entry box
     search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    search_movie.place(x=100, y=200, width=150, height=30) 
+    search_movie.place(x=100, y=200, width=250, height=30) 
 
     #actual search button
     Search_btn = tk.Button(display_frame, text='Search',command=verify, font=('Bold',12),
@@ -531,32 +531,35 @@ def displayInfo():
     email_lb.place(x=100,y=100)
     email_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    email_entry.place(x=400, y=100, width=200, height=30) 
+    email_entry.place(x=400, y=100, width=250, height=30) 
 
     name_lb = tk.Label(display_frame, text= "Name:", font=('Bold',12))
     name_lb.place(x=100,y=150)
     name_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    name_entry.place(x=400, y=150, width=200, height=30) 
+    name_entry.place(x=400, y=150, width=250, height=30) 
 
     address_lb =tk.Label(display_frame, text='Adress:', font=('Bold',12))
     address_lb.place(x=100, y=200)
     address_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    address_entry.place(x=400, y=200, width=200, height=30) 
+    address_entry.place(x=400, y=200, width=250, height=30) 
 
     phone_lb =tk.Label(display_frame, text='Phone #:', font=('Bold',12))
     phone_lb.place(x=100, y=250) 
     phone_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    phone_entry.place(x=400, y=250, width=200, height=30) 
+    phone_entry.place(x=400, y=250, width=250, height=30) 
 
     password_lb =tk.Label(display_frame, text='Password:', font=('Bold',12))
     password_lb.place(x=100, y=300) 
     password_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password_entry.place(x=400, y=300, width=200, height=30) 
+    password_entry.place(x=400, y=300, width=250, height=30) 
 
+    dash_btn = tk.Button(display_frame, text='Save Changes',command=forward_dashboard_page, font=('Bold',12),
+                            bg= 'green', fg='black', )
+    dash_btn.place(x=100, y=350, width=150)
 
     #Dashboard button
     dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
@@ -591,6 +594,11 @@ def showPurchases():
 
     email_lb = tk.Label(display_frame, text= f'Welcome: EmailUsername ', font=('Bold',12))
     email_lb.place(x=100,y=100) 
+
+    #Dashboard button
+    dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
+                            bg= 'blue', fg='white', )
+    dash_btn.place(x=100, y=400, width=150)  
 
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
@@ -660,12 +668,17 @@ def purchaseTickets():
 
     purchase_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    purchase_entry.place(x=100, y=150, width=150, height=30) 
+    purchase_entry.place(x=100, y=150, width=250, height=30) 
 
+    credit_lb = tk.Label(display_frame, text= "Enter Credit card", font=('Bold',12))
+    credit_lb.place(x=100,y=200)
+    credit_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    credit_entry.place(x=100, y=250, width=250, height=30) 
 
     purchase_btn = tk.Button(display_frame, text='Add',command=make_purchase, font=('Bold',12),
                             bg= 'green', fg='black', )
-    purchase_btn.place(x=100, y=200, width=150)
+    purchase_btn.place(x=100, y=300, width=150)
        
     logout_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Dashboard, font=('Bold',12),
                             bg= 'blue', fg='white', )
@@ -720,14 +733,14 @@ def login_page():
 
     username = tk.Entry(login_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    username.place(x=150, y=60, width=150, height=30)
+    username.place(x=150, y=60, width=250, height=30)
 
     password_lb =tk.Label(login_frame, text='Enter Password', font=('Bold',12))
     password_lb.place(x=160, y=120) 
 
     password = tk.Entry(login_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password.place(x=150, y=160, width=150, height=30)                    
+    password.place(x=150, y=160, width=250, height=30)                    
 
     login_btn = tk.Button(login_frame, text='Login', font=('Bold',12),
                             bg= '#158aff', fg='white', command=verify)
@@ -786,42 +799,42 @@ def register_page():
 
     email = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    email.place(x=150, y=60, width=200, height=30)
+    email.place(x=150, y=60, width=250, height=30)
     #enter name
     username_lb = tk.Label(register_frame, text='Enter Username', font=('Bold',12))
     username_lb.place(x=160,y=100)
 
     username = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    username.place(x=150, y=140, width=200, height=30)
+    username.place(x=150, y=140, width=250, height=30)
     #enter address
     address_lb = tk.Label(register_frame, text='Enter Address', font=('Bold',12))
     address_lb.place(x=160,y=180)
 
     address = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    address.place(x=150, y=220, width=200, height=30)
+    address.place(x=150, y=220, width=250, height=30)
     #enter phone number
     pnumber_lb = tk.Label(register_frame, text='Enter Phone Number', font=('Bold',12))
     pnumber_lb.place(x=160,y=260)
 
     pnumber = tk.Entry(register_frame, font=('Bold', 15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    pnumber.place(x=150, y=300, width=200, height=30)
+    pnumber.place(x=150, y=300, width=250, height=30)
     #enter password
     password_lb =tk.Label(register_frame, text='Enter Password', font=('Bold',12))
     password_lb.place(x=160, y=340) 
 
     password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    password.place(x=150, y=380, width=200, height=30)     
+    password.place(x=150, y=380, width=250, height=30)     
     #repeat password
     repeat_password_lb =tk.Label(register_frame, text='Repeat Password', font=('Bold',12))
     repeat_password_lb.place(x=160, y=420) 
 
     repeat_password = tk.Entry(register_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    repeat_password.place(x=150, y=460, width=200, height=30)     
+    repeat_password.place(x=150, y=460, width=250, height=30)     
 
     register_btn = tk.Button(register_frame, text='Register', font=('Bold',12),
                             bg= '#158aff', fg='white',command =verify)
@@ -867,6 +880,7 @@ def mainMenu():
         print("Admin Edit State")
         EditMovie()        
     ####################Regular People#################   
+    
     #################### Dashboard ####################
     elif state == "Dashboard":
         print("Dashboard State")
