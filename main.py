@@ -27,6 +27,11 @@ UsersName=''
 
 #########################
 movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
+Directors= ["Joss Wheden","Jon Favereau","Keneth Brenagh","George Lucas","Chris Columbus"]
+Genres= ["Super Hero","Super Hero","Super Hero","Sci Fi","Fantasy"]
+Price = [12,11,10,9,8]
+Time = ["12:00","11:00","10:00","9:00","8:00"]
+
 numMoviesSold=0
 
 
@@ -229,6 +234,10 @@ def AddRemoveMovie():
                 message_box(msg='Movie already Exists!')
             else:
                 movies.append(search_movie.get() )
+                Directors.append(director_entry.get() )
+                Genres.append(genre_entry.get())
+                Price.append(price_entry.get())
+                Time.append(time_entry.get())
                 message_box(msg=f'{ search_movie.get() } \nhas been Added')  
         else:
             message_box(msg='Entry Empty')
@@ -236,7 +245,14 @@ def AddRemoveMovie():
     def verifyRemove():
         if search_movie.get() != '':
             if(search_movie.get() in movies):
-                movies.remove(search_movie.get())
+                listIndex= movies.index(search_movie.get())
+                print(f"Index was {listIndex}")
+                movies.pop(listIndex)
+                Directors.pop(listIndex)
+                Genres.pop(listIndex)
+                Price.pop(listIndex)
+                Time.pop(listIndex)
+                #movies.remove(search_movie.get())
                 message_box(msg=f'{search_movie.get()}\nhas been Removed')  
             else:
                 message_box(msg='No such movie exists')  
@@ -254,23 +270,46 @@ def AddRemoveMovie():
      #                       bg= 'green', fg='white', )
     #search_btn.place(x=0, y=300, width=150)  
     # Display text message 
-    search_movie_lb =tk.Label(display_frame, text='Enter Movie to add or remove', font=('Bold',12))
+    search_movie_lb =tk.Label(display_frame, text='Enter Movie to\n add or remove', font=('Bold',12))
     search_movie_lb.place(x=100, y=50) 
-
     #text entry box
     search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
-    search_movie.place(x=100, y=100, width=250, height=30) 
+    search_movie.place(x=350, y=50, width=250, height=30) 
+
+    genre_lb =tk.Label(display_frame, text='Genre', font=('Bold',12))
+    genre_lb.place(x=100, y=100) 
+    genre_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    genre_entry.place(x=350, y=100, width=250, height=30) 
+
+    director_lb =tk.Label(display_frame, text='Director', font=('Bold',12))
+    director_lb.place(x=100, y=150) 
+    director_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    director_entry.place(x=350, y=150, width=250, height=30)
+
+    time_lb =tk.Label(display_frame, text='Time', font=('Bold',12))
+    time_lb.place(x=100, y=200) 
+    time_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    time_entry.place(x=350, y=200, width=250, height=30)
+
+    price_lb =tk.Label(display_frame, text='Price', font=('Bold',12))
+    price_lb.place(x=100, y=250) 
+    price_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    price_entry.place(x=350, y=250, width=250, height=30)
 
     #actual Add button
     Add_btn = tk.Button(display_frame, text='Add',command=verifyAdd, font=('Bold',12),
                             bg= 'green', fg='black', )
-    Add_btn.place(x=100, y=200, width=150)  
+    Add_btn.place(x=100, y=300, width=150)  
 
     #actual Remove button
     Remove_btn = tk.Button(display_frame, text='Remove',command=verifyRemove, font=('Bold',12),
                             bg= 'green', fg='black', )
-    Remove_btn.place(x=100, y=300, width=150)  
+    Remove_btn.place(x=100, y=350, width=150)  
 
     #Dashboard button
     dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_Admin_dashboard_page, font=('Bold',12),
@@ -752,14 +791,24 @@ def displayMovie(movie):
         mainMenu()
     display_frame = tk.Frame(root)
 
+#Directors= ["james","Marvel","james","Lucas","yes"]
+#Genres= ["Action","Action","Action","Action","Action"]
+
     #messages
     message = tk.Label(display_frame, text= f'Movie: {movies[movie]}', font=('Bold',12))
     message.place(x=100,y=0)
 
-    summaryText="the man went into the world and looked for somethign \n grand but could not find it"
-    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=100,y=100)
+    genre_label = tk.Label(display_frame, text= f"Genre: {Genres[movie]}", font=('Bold',12))
+    genre_label.place(x=100,y=50)
 
+    director_label = tk.Label(display_frame, text= f"Director: {Directors[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=100)
+
+    director_label = tk.Label(display_frame, text= f"Price: {Price[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=150)
+
+    director_label = tk.Label(display_frame, text= f"Time: {Time[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=200)
     #Buttons
     return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
                             bg= '#158aff', fg='white', command=forward_dashboard_page)
@@ -768,6 +817,8 @@ def displayMovie(movie):
     purchase_ticket = tk.Button(display_frame, text='Purchase Ticket', font=('Bold',12),
                             bg= 'green', fg='white', command=forward_purchase_page)
     purchase_ticket.place(x=100, y=400, width=150)   
+
+
 
 
     display_frame.pack(pady=10)
