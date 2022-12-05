@@ -48,6 +48,13 @@ class User():
         obj.name=namey
     def setEmail(obj, namey):
         obj.email=namey
+    def setPassword(obj, namey):
+        obj.password=namey
+    def setAddress(obj, namey):
+        obj.address=namey
+    def setPhone(obj, namey):
+        obj.pnumber=namey    
+
 
 
 # Test = User()

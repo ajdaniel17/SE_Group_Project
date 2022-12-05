@@ -8,7 +8,7 @@ from tkinter import *
 #from PIL import ImageTk,IMAGE
 from tkinter import ttk
 import user
-
+import formatCheck
 
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
@@ -159,7 +159,7 @@ def AdminDashboard():
     def forward_Edit(): 
         display_frame.destroy()
         global state
-        state = 'AdminEdit'
+        state = 'EditMovieList'
         mainMenu()
 
     """    
@@ -194,7 +194,7 @@ def AdminDashboard():
     AddRemove_btn = tk.Button(display_frame, text='Add/Remove Movies',command=forward_Add_Remove,
                          font=('Bold',12),bg= 'green', fg='white', )
     AddRemove_btn.place(x=100, y=150, width=150)   
-    Edit_btn = tk.Button(display_frame, text='Edit movies',command=forward_Edit, font=('Bold',12),
+    Edit_btn = tk.Button(display_frame, text='Add Details',command=forward_Edit, font=('Bold',12),
                             bg= 'green', fg='white', )
     Edit_btn.place(x=100, y=250, width=150)   
     search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
@@ -282,14 +282,105 @@ def AddRemoveMovie():
     display_frame.configure(height=600, width=1000)
     print(Customer.getname())        
 
-def EditMovie():
-    def logout():
-        display_frame.destroy()
+def EditMovieList():
+    def Forward_AdminDashboard():
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
         global state
-        state = 'Login'
+        state = 'AdminDashboard'
         mainMenu()
 
+    def forward_EditMovie(movieNum):
+        main_frame.destroy()
+        second_frame.destroy()
+        my_canvas.destroy()
+        
+        global movieState
+        movieState=movieNum
+        global state
+        state = 'EditMovie'
+        mainMenu()
 
+    main_frame= Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    #Create a canvas
+    my_canvas = Canvas(main_frame)
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    #scroll bar
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command = my_canvas.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+    #Configure the canvas
+    my_canvas.configure(yscrollcommand = my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all") ))
+    #Create Another frame inside the canvas
+    second_frame = Frame(my_canvas)
+    #add frame
+    my_canvas.create_window((0,0), window = second_frame, anchor = "nw")
+    #
+    message = tk.Label(second_frame, text= f'Edit the following Movies', 
+    font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
+    #message.place(x=120,y=0)
+    
+    global movies
+    for thing in range( len(movies) ):
+        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: forward_EditMovie(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+
+    Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
+                command= Forward_AdminDashboard).grid(row=thing+1, column=0, pady=10,padx=10 )
+    print(Customer.getname())
+
+def EditMovie(movie):
+    def forward_dashboard_page():
+        display_frame.destroy()
+        global state
+        state = 'AdminDashboard'
+        mainMenu()
+    def forward_purchase_page():
+        display_frame.destroy()
+        global state
+        state = 'PurchaseTickets'
+        mainMenu()
+    display_frame = tk.Frame(root)
+
+    #messages
+    message = tk.Label(display_frame, text= f'Movie: {movies[movie]}', font=('Bold',12))
+    message.place(x=100,y=0)
+
+    time = tk.Label(display_frame, text= "Movie Time", font=('Bold',12))
+    time.place(x=100,y=100)
+
+    time_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    time_entry.place(x=200, y=100, width=250, height=30) 
+
+    price = tk.Label(display_frame, text= "Price", font=('Bold',12))
+    price.place(x=100,y=200)
+
+    price_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
+                        highlightthickness=2, highlightbackground='gray')
+    price_entry.place(x=200, y=200, width=250, height=30) 
+
+
+
+    #Buttons
+    return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
+                            bg= '#158aff', fg='white', command=forward_dashboard_page)
+    return_to_dashboard.place(x=100, y=400, width=150)  
+
+    update_info_btn = tk.Button(display_frame, text='Update Info', font=('Bold',12),
+                            bg= 'green', fg='white', command=forward_purchase_page)
+    update_info_btn.place(x=100, y=300, width=150)   
+    #Time 
+    #Price
+
+
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+
+    display_frame.configure(height=600 , width=1000)
+    print(Customer.getname())
 
 
 ################################## Main User #########################
@@ -535,9 +626,30 @@ def displayInfo():
         global state
         state = 'Display'
         mainMenu()
+    def forward_self():
+        display_frame.destroy()
+        global movieState
+        state = 'displayInfo'
+        mainMenu()
+
     def update_List():
-        print("Worked")    
-        Customer.setEmail(str(email_entry))
+        if(email_entry.get()!='' ):
+            Customer.setEmail(str(email_entry.get()))
+        
+        if(name_entry.get()!='' ):
+            Customer.setName(str(name_entry.get()))
+
+        if(address_entry.get()!='' ):
+            Customer.setAddress(str(address_entry.get()))
+
+        if(phone_entry.get()!='' ):
+            Customer.setPhone(str(phone_entry.get()))
+
+        if(password_entry.get()!='' ):
+            Customer.setPassword(str(password_entry.get()))    
+        forward_self()    # this ensures that the list updates in real time
+
+
 
     display_frame = tk.Frame(root)
 
@@ -675,7 +787,10 @@ def purchaseTickets():
         #Purchase_Box( purchase_entry.get()  )  
         if int(purchase_entry.get()) <=6:
             if int(purchase_entry.get()) > 0:
-                Purchase_Box( int(purchase_entry.get())   ) 
+                if(formatCheck.creditCardCheck(credit_entry.get())):
+                    Purchase_Box( int(purchase_entry.get())   ) 
+                else:
+                    message_box(msg= "Invalid Credit\nCard number")     
 
             else:
                 message_box(msg= "Invalid amount")  
@@ -802,25 +917,28 @@ def register_page():
     def verify():
         if username.get() != '':    #if username not empty and password not empty
             if password.get() != '':
-                if repeat_password.get() == password.get():
-                    # send a 0 for passwords, 
-                    if searchList(0, username.get()) ==0 :
-                        response = register_account(email=email.get(), password= password.get(),username = username.get(),address=address.get(),pnumber=pnumber.get())
-                        print("running register")
-                        if response:
-                            username.delete(0, tk.END)
-                            password.delete(0, tk.END)
-                            email.delete(0,tk.END)
-                            address.delete(0,tk.END)
-                            pnumber.delete(0,tk.END)
-                            updateList()
-                            print(Accounts)
-                            repeat_password.delete(0, tk.END)
-                            message_box(msg='Account Created') 
+                if formatCheck.emailCheck(email.get()) and formatCheck.phoneNumberCheck(pnumber.get()):
+                    if repeat_password.get() == password.get():
+                        # send a 0 for passwords, 
+                        if searchList(0, username.get()) ==0 :
+                            response = register_account(email=email.get(), password= password.get(),username = username.get(),address=address.get(),pnumber=pnumber.get())
+                            print("running register")
+                            if response:
+                                username.delete(0, tk.END)
+                                password.delete(0, tk.END)
+                                email.delete(0,tk.END)
+                                address.delete(0,tk.END)
+                                pnumber.delete(0,tk.END)
+                                updateList()
+                                print(Accounts)
+                                repeat_password.delete(0, tk.END)
+                                message_box(msg='Account Created') 
+                        else:
+                            message_box(msg='Username \n already exists')     
                     else:
-                         message_box(msg='Username \n already exists')     
+                        message_box(msg='Error: Passwords dont match')   
                 else:
-                    message_box(msg='Error: Passwords dont match')    
+                        message_box(msg='Either Phone number \nor email format is invalid')     
             else:
                 message_box(msg='Error: Password empty')        
         else:
@@ -914,9 +1032,12 @@ def mainMenu():
     elif state == "AdminAddRemove":
         print("Admin Add/Remove State")
         AddRemoveMovie()
-    elif state == "AdminEdit":
+    elif state == "EditMovieList":
+        print("Admin Edit List State")
+        EditMovieList()        
+    elif state == "EditMovie":
         print("Admin Edit State")
-        EditMovie()        
+        EditMovie(movieState)         
     ####################Regular People#################   
     
     #################### Dashboard ####################
