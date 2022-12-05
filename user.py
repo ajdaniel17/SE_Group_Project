@@ -25,9 +25,12 @@ class User():
                     return False
             print("USER NOT FOUND!")
             return False    
-
+###########################  Getters ############################
     def getname(self):
         return(self.name)
+
+    def getpassword(self):
+        return(self.password)    
     
     def getaddress(self):
         return(self.address)
@@ -40,6 +43,12 @@ class User():
 
     def gettype(self):
         return(self.type)
+######################### Setter ##########################       
+    def setName(obj, namey):
+        obj.name=namey
+    def setEmail(obj, namey):
+        obj.email=namey
+
 
 # Test = User()
 # Test.loaduser("real@email.com","PASS")

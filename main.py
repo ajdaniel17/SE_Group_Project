@@ -10,7 +10,6 @@ from tkinter import ttk
 import user
 
 
-
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
 #              Xaxis, Yaxis
@@ -24,9 +23,15 @@ tempName ='admin'
 state = '' 
 movieState=0
 Customer = user.User()
+UsersName=''
+
 #########################
 movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
 numMoviesSold=0
+
+
+
+
 
 #################################   File stuff    #########################################################
 def updateList():
@@ -94,13 +99,15 @@ def Purchase_Box(num):
                             command=lambda: message_frame.destroy())
     close_btn.pack(side=tk.TOP, anchor=tk.E)
 
-    message_lb = tk.Label(message_frame, text = f'You have purchased\n int({num}) tickets', font=('Bold',15) )
+    message_lb = tk.Label(message_frame, text = f'You have purchased\n {num} tickets', font=('Bold',15) )
     message_lb.pack(pady=20)
     global numMoviesSold
     numMoviesSold=numMoviesSold + int(num)
     print(f"Total Tickets sold is: {numMoviesSold}")
 
     message_frame.place(x=40,y=100, width=230, height=180)
+
+
 #################################   Message Box    ###################################################
 
 def message_box(msg):
@@ -128,6 +135,12 @@ def displayQR():
     message_lb.pack(pady=20)
 
     message_frame.place(x=40,y=100, width=230, height=180)
+
+
+
+
+
+
 ################################ Admin ###########################
 def AdminDashboard():
     print("Welcome admin")
@@ -275,6 +288,9 @@ def EditMovie():
         global state
         state = 'Login'
         mainMenu()
+
+
+
 
 ################################## Main User #########################
 def dashboard():
@@ -519,6 +535,9 @@ def displayInfo():
         global state
         state = 'Display'
         mainMenu()
+    def update_List():
+        print("Worked")    
+        Customer.setEmail(str(email_entry))
 
     display_frame = tk.Frame(root)
 
@@ -527,37 +546,40 @@ def displayInfo():
      font=('Bold',12))
     email_lb.place(x=100,y=0)
 
-    email_lb = tk.Label(display_frame, text= f'Welcome: EmailUsername ', font=('Bold',12))
+    email_lb = tk.Label(display_frame, text= f'Welcome: {Customer.getemail()} ', font=('Bold',12))
     email_lb.place(x=100,y=100)
+    
     email_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     email_entry.place(x=400, y=100, width=250, height=30) 
 
-    name_lb = tk.Label(display_frame, text= "Name:", font=('Bold',12))
+    tempName=Customer.getname()
+    name_lb = tk.Label(display_frame, text= f"Name: {Customer.getname()}", font=('Bold',12))
     name_lb.place(x=100,y=150)
     name_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     name_entry.place(x=400, y=150, width=250, height=30) 
 
-    address_lb =tk.Label(display_frame, text='Adress:', font=('Bold',12))
+    address_lb =tk.Label(display_frame, text=f'Adress: {Customer.getaddress()}', font=('Bold',12))
     address_lb.place(x=100, y=200)
     address_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     address_entry.place(x=400, y=200, width=250, height=30) 
 
-    phone_lb =tk.Label(display_frame, text='Phone #:', font=('Bold',12))
+    phone_lb =tk.Label(display_frame, text= f'Phone #: {Customer.getpnumber()}', font=('Bold',12))
     phone_lb.place(x=100, y=250) 
     phone_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     phone_entry.place(x=400, y=250, width=250, height=30) 
 
-    password_lb =tk.Label(display_frame, text='Password:', font=('Bold',12))
+    password_lb =tk.Label(display_frame, text= f'Password: {Customer.getpassword()}', font=('Bold',12))
     password_lb.place(x=100, y=300) 
     password_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     password_entry.place(x=400, y=300, width=250, height=30) 
 
-    dash_btn = tk.Button(display_frame, text='Save Changes',command=forward_dashboard_page, font=('Bold',12),
+
+    dash_btn = tk.Button(display_frame, text='Save Changes',command=update_List, font=('Bold',12),
                             bg= 'green', fg='black', )
     dash_btn.place(x=100, y=350, width=150)
 
@@ -652,10 +674,15 @@ def purchaseTickets():
     def make_purchase():
         #Purchase_Box( purchase_entry.get()  )  
         if int(purchase_entry.get()) <=6:
-            Purchase_Box( int(purchase_entry.get())   )  
+            if int(purchase_entry.get()) > 0:
+                Purchase_Box( int(purchase_entry.get())   ) 
+
+            else:
+                message_box(msg= "Invalid amount")  
+                print("Invalid Amount")   
         else:     
             message_box(msg= "You can only\nbook 6 tickets/nat a time")
-            print("te")
+            print("only purchase 6")
     display_frame = tk.Frame( )
 
     #messages
@@ -688,6 +715,12 @@ def purchaseTickets():
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
     print(Customer.getname())        
+
+
+
+
+
+
 ##########################################Account Stuff below#########################################################
 def login_page():
     def forward_register_page():
@@ -718,6 +751,8 @@ def login_page():
                     if(Customer.gettype() == "Admin"):
                         forward_admin_dashboard()
                     else:
+                        #global UsersName
+                        #UsersName = username.get()
                         forward_dashboard()
                 else:
                     message_box(msg = "Password Inncorrect or User does not exist!")
@@ -854,6 +889,9 @@ with open ("UserDatabase.txt", 'r')as file:
     print(var)
     file.close()
     pass
+
+
+
 
 ########################### Main Loop ###############################################
 updateList()
