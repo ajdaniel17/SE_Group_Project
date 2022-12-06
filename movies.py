@@ -53,6 +53,23 @@ class movie():
 # Global variable conataining movie data
 movieObjects = []
 
+# More specific getters
+def findDirector(title):
+    pos = findMovie(title)
+    return movieObjects[pos].getDirector()
+
+def findGenre(title):
+    pos = findMovie(title)
+    return movieObjects[pos].getGenre()
+
+def findPrice(title):
+    pos = findMovie(title)
+    return movieObjects[pos].getPrice()
+
+def findTime(title):
+    pos = findMovie(title)
+    return movieObjects[pos].getTime()
+
 # Reads data from MovieDatabase.txt and puts it into movieList
 def loadMovies():
     global movieObjects
@@ -67,6 +84,23 @@ def loadMovies():
                 movieObjects.append(movie(mat[0], mat[1], mat[2], mat[3], mat[4]))
     inputFile.close
 
+# Prints everything in a specified movie
+def movieDetails(title):
+    pos = findMovie(title)
+    mat = movieObjects[pos].getTime()
+    print("\n------")
+    print("Details for " + title + ":")
+    print("Name: " + movieObjects[pos].getName() + 
+        "\nDirector: " + movieObjects[pos].getDirector() + 
+        "\nGenre: " + movieObjects[pos].getGenre() + 
+        "\nPrice: " + movieObjects[pos].getPrice() + 
+        "\nTimes: ", end = "")
+    for i in range(len(mat)):
+        print(str(mat[i]), end="") 
+        if i < len(mat) - 1:
+            print(", ", end = "")
+    print("\n------")
+    
 # Add a movie into the movie list
 def addMovie(obj):
     global movieObjects
@@ -128,8 +162,13 @@ def updateMovie():
 def main():
     loadMovies()
     printMovie()
-    print(findMovie("Avengers4"))
-    deleteMovie("Avengers4")
+    #print(findMovie("Avengers4"))
+    #deleteMovie("Avengers4")
+    movieDetails("avengers")
+    print(findDirector("avengers"))
+    print(findGenre("avengers"))
+    print(findPrice("avengers"))
+    print(findTime("avengers"))
     #mat = movieObjects[0].getTime()
     #print(mat)
     #print(str(movieObjects[0].getTime()))
