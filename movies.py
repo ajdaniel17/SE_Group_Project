@@ -1,5 +1,5 @@
 class movie():    
-    def __init__(self, name = "" , director = "", genre = "", price = "", time = []):
+    def __init__(self, name = "" , director = "", genre = "", price = "", time = [], upvotes = "", ratingTotal = "", state = 0):
         self.name = name
         self.director = director
         self.genre = genre
@@ -9,8 +9,12 @@ class movie():
         timeData = time.split(", ")
         for n in range(len(timeData)):
             mat.append(timeData[n])
-            
         self.time = mat
+
+        self.upvotes = upvotes
+        self.ratingTotal = ratingTotal
+        self.state = state
+
     
     # Getters
     def getName(self):
@@ -30,6 +34,15 @@ class movie():
         for n in range(len(self.time)):
             mat.append(self.time[n])
         return(mat)
+    
+    def getUpvotes(self):
+        return(self.upvotes)
+
+    def getTotalVotes(self):
+        return(self.ratingTotal)
+
+    def getState(self):
+        return(self.state)
 
     # Setters
     def setName(self, inputName):
@@ -46,6 +59,15 @@ class movie():
     
     def setTime(self, inputTime):
         self.time = inputTime
+    
+    def setUpvotes(self, inputUpvotes):
+        self.time = inputUpvotes
+
+    def setTotalVotes(self, inputTotalVotes):
+        self.time = inputTotalVotes
+
+    def setState(self, inputState):
+        self.time = inputState
 
 ##############################################################################
 ### Movie manipulation functions ###
@@ -56,36 +78,88 @@ movieObjects = []
 # More specific getters
 def findDirector(title):
     pos = findMovie(title)
+    if pos == None:
+        return
     return movieObjects[pos].getDirector()
 
 def findGenre(title):
     pos = findMovie(title)
+    if pos == None:
+        return
     return movieObjects[pos].getGenre()
 
 def findPrice(title):
     pos = findMovie(title)
+    if pos == None:
+        return
     return movieObjects[pos].getPrice()
 
 def findTime(title):
     pos = findMovie(title)
+    if pos == None:
+        return
     return movieObjects[pos].getTime()
+
+def findUpvotes(title):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    return movieObjects[pos].getUpvotes()
+
+def findTotalVotes(title):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    return movieObjects[pos].getTotalVotes()
+
+def findState(title):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    return movieObjects[pos].getState()
 
 # More specific setters
 def replaceDirector(title, director):
     pos = findMovie(title)
+    if pos == None:
+        return
     movieObjects[pos].setDirector(director)
 
 def replaceGenre(title, genre):
     pos = findMovie(title)
+    if pos == None:
+        return
     movieObjects[pos].setGenre(genre)
 
 def replacePrice(title, price):
     pos = findMovie(title)
+    if pos == None:
+        return
     movieObjects[pos].setPrice(price)
 
 def replaceTime(title, time):
     pos = findMovie(title)
+    if pos == None:
+        return
     movieObjects[pos].setTime(time)
+
+def replaceUpvotes(title, upvotes):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    movieObjects[pos].setUpvotes(upvotes)
+
+def replaceTotalVotes(title, totalVotes):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    movieObjects[pos].setTotalVotes(totalVotes)
+
+def replaceState(title, state):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    movieObjects[pos].setState(state)
 
 # Reads data from MovieDatabase.txt and puts it into movieList
 def loadMovies():
@@ -98,7 +172,7 @@ def loadMovies():
                 mat = []
                 for n in data: # removes newlines
                     mat.append(n.replace("\n", ""))
-                movieObjects.append(movie(mat[0], mat[1], mat[2], mat[3], mat[4]))
+                movieObjects.append(movie(mat[0], mat[1], mat[2], mat[3], mat[4], mat[5], mat[6], mat[7]))
     inputFile.close
 
 # Prints everything in a specified movie
@@ -116,6 +190,12 @@ def movieDetails(title):
         print(str(mat[i]), end="") 
         if i < len(mat) - 1:
             print(", ", end = "")
+    print("\nRating: " + str(movieObjects[pos].getUpvotes()) + "/" 
+        + str(movieObjects[pos].getTotalVotes()), end ="")
+    if movieObjects[pos].getState:
+        print("\nState: Current", end = "")
+    else:
+        print("\nState: Upcomming", end = "")
     print("\n------")
     
 # Add a movie into the movie list
@@ -162,13 +242,19 @@ def printMovie():
             print(str(mat[i]), end="") 
             if i < len(mat) - 1:
                 print(", ", end = "")
+        print("\nRating: " + str(movieObjects[n].getUpvotes()) + "/" 
+            + str(movieObjects[n].getTotalVotes()), end ="")
+        if movieObjects[n].getState:
+            print("\nState: Current", end = "")
+        else:
+            print("\nState: Upcomming", end = "")
         print("\n------")
 
 # Writes to output file
 def updateMovie():
     global movieObjects
     outputFile = open("MovieDatabase.txt", "w")
-    outputFile.write("(Movie) ; (Director) ; (Genre) ; (Price) ; (Times)\n")
+    outputFile.write("(Movie) ; (Director) ; (Genre) ; (Price) ; (Times) ; (Upvotes) ; (Total Votes) ; (State [upcomming/current])\n")
     for n in range(len(movieObjects)):
         mat = movieObjects[n].getTime()
         outputFile.write(movieObjects[n].getName() + "; " 
@@ -179,13 +265,16 @@ def updateMovie():
             outputFile.write(mat[i])
             if i < len(mat) - 1:
                 outputFile.write(", ")
+        outputFile.write("; " + str(movieObjects[n].getUpvotes()) + "; "
+        + str(movieObjects[n].getTotalVotes()) + "; "
+        + str(movieObjects[n].getState()))
         outputFile.write("\n")
     outputFile.close()
     
 '''
 def main():
     loadMovies()
-    #printMovie()
+    printMovie()
     #replaceDirector("avengers2", "Joss Wheden")
     #replaceGenre("avengers2", "Comedy")
     #replacePrice("avengers2", "15")
@@ -201,7 +290,7 @@ def main():
     #print(mat)
     #print(str(movieObjects[0].getTime()))
     #updateMovie()
-    addMovie(movie("Avengers5", "Joss Wheden", "Super Hero", "19", "12:00, 3:00, 6:00, 9:00"))
+    #addMovie(movie("Avengers5", "Joss Wheden", "Super Hero", "19", "12:00, 3:00, 6:00, 9:00"))
     #printMovie()
     updateMovie()
 
