@@ -48,6 +48,9 @@ class movie():
     def setTime(self, inputTime):
         self.time = inputTime
 
+##############################################################################
+### Movie manipulation functions ###
+
 # Global variable conataining movie data
 movieObjects = []
 
@@ -59,22 +62,34 @@ def loadMovies():
             if line != "\n":
                 data = line.split("; ")
                 mat = []
-                #print(data)
-
-                # removes newlines
-                for n in data:
+                for n in data: # removes newlines
                     mat.append(n.replace("\n", ""))
-                #print(mat)
-                #print(mat[4])
                 movieObjects.append(movie(mat[0], mat[1], mat[2], mat[3], mat[4]))
     inputFile.close
-                
-    
-# Add a movie into the movieList
+
+# Add a movie into the movie list
 def addMovie(obj):
     global movieObjects
     movieObjects.append(obj)
 
+# Delete movie from movie list
+def deleteMovie(title):
+    global movieObjects
+    title = title.lower()
+    for n in range(len(movieObjects)):
+        if title == (movieObjects[n].getName()).lower():
+            del movieObjects[n]
+            return
+
+# Find movie position in movie list
+def findMovie(title):
+    global movieObjects
+    title = title.lower()
+    for n in range(len(movieObjects)):
+        if title == (movieObjects[n].getName()).lower():
+            return n
+
+# Print all information in movie object
 def printMovie():
     global movieObjects
     print("\n\n***Movies***")
@@ -100,19 +115,23 @@ def updateMovie():
             if i < len(mat) - 1:
                 outputFile.write(", ")
         outputFile.write("\n")
+    outputFile.close()
     
-
+'''
 def main():
     loadMovies()
     printMovie()
+    print(findMovie("Avengers4"))
+    deleteMovie("Avengers4")
     #mat = movieObjects[0].getTime()
     #print(mat)
     #print(str(movieObjects[0].getTime()))
     updateMovie()
-    addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "[12:00, 3:00, 6:00, 9:00]"))
-    printMovie()
-    updateMovie()
+    #addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "[12:00, 3:00, 6:00, 9:00]"))
+    #printMovie()
+    #updateMovie()
 
 
 if __name__ == "__main__":
     main()
+'''
