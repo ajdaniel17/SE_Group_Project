@@ -34,12 +34,13 @@ Price = [12,11,10,9,8]
 Time = ["12:00","11:00","10:00","9:00","8:00"]
 ##########################  Upcomming ,movies
 upcomingMoviesList= ["Avengers 2","Iron Man 2","Thor 2","Star Wars 2","Harry Potter 2"]
-
+upcommingDirectors= ["Joss Wheden","Jon Favereau","Keneth Brenagh","George Lucas","Chris Columbus"]
+upcommingGenres= ["Super Hero","Super Hero","Super Hero","Sci Fi","Fantasy"]
+upcommingPrice = [12,11,10,9,8]
+upcommingTime = ["12:00","11:00","10:00","9:00","8:00"]
 
 
 numMoviesSold=0
-
-
 
 
 
@@ -568,7 +569,7 @@ def upcomingMovies():
         global movieState
         movieState=movieNum
         global state
-        state = 'Display'
+        state = 'displayUpcommingMovie'
         mainMenu()
 
     main_frame= Frame(root)
@@ -599,6 +600,54 @@ def upcomingMovies():
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
     print(Customer.getname())
+
+def displayUpcommingMovie(movie):
+    def forward_dashboard_page():
+        display_frame.destroy()
+        global state
+        state = 'Dashboard'
+        mainMenu()
+    def forward_purchase_page():
+        display_frame.destroy()
+        global state
+        state = 'PurchaseTickets'
+        mainMenu()
+    display_frame = tk.Frame(root)
+
+#Directors= ["james","Marvel","james","Lucas","yes"]
+#Genres= ["Action","Action","Action","Action","Action"]
+
+    #messages
+    message = tk.Label(display_frame, text= f'Movie: {upcomingMoviesList[movie]}', font=('Bold',12))
+    message.place(x=100,y=0)
+
+    genre_label = tk.Label(display_frame, text= f"Genre: {upcommingGenres[movie]}", font=('Bold',12))
+    genre_label.place(x=100,y=50)
+
+    director_label = tk.Label(display_frame, text= f"Director: {upcommingDirectors[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=100)
+
+    director_label = tk.Label(display_frame, text= f"Price: {upcommingPrice[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=150)
+
+    director_label = tk.Label(display_frame, text= f"Time: {upcommingTime[movie]}", font=('Bold',12))
+    director_label.place(x=100,y=200)
+    #Buttons
+    return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
+                            bg= '#158aff', fg='white', command=forward_dashboard_page)
+    return_to_dashboard.place(x=100, y=300, width=150)  
+
+    purchase_ticket = tk.Button(display_frame, text='Purchase Ticket', font=('Bold',12),
+                            bg= 'green', fg='white', command=forward_purchase_page)
+    purchase_ticket.place(x=100, y=400, width=150)   
+
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+
+    display_frame.configure(height=600 , width=1000)
+    print(Customer.getname())
+
+
 
 def searchMovie():
     def forward_dashboard_page():
@@ -679,8 +728,7 @@ def displayInfo():
         mainMenu()
 
     def update_List():
-        if(email_entry.get()!='' ):
-            Customer.setEmail(str(email_entry.get()))
+        
         
         if(name_entry.get()!='' ):
             Customer.setName(str(name_entry.get()))
@@ -707,9 +755,7 @@ def displayInfo():
     email_lb = tk.Label(display_frame, text= f'Welcome: {Customer.getemail()} ', font=('Bold',12))
     email_lb.place(x=100,y=100)
     
-    email_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
-                        highlightthickness=2, highlightbackground='gray')
-    email_entry.place(x=400, y=100, width=250, height=30) 
+   
 
     tempName=Customer.getname()
     name_lb = tk.Label(display_frame, text= f"Name: {Customer.getname()}", font=('Bold',12))
@@ -1108,6 +1154,9 @@ def mainMenu():
     elif state == "UpcomingMovies":
         print("Upcoming movie State")
         upcomingMovies()
+    elif state == "displayUpcommingMovie":
+        print("Upcoming movie State")
+        displayUpcommingMovie(movieState)
     elif state == "SearchMovie":
         print("Search movie State")  
         searchMovie()  
