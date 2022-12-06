@@ -581,8 +581,8 @@ def currentMovies():
     #message.place(x=120,y=0)
     
     global movies
-    for thing in range( len(movies) ):
-        Button(second_frame, text = f'{thing} {movies[thing] }',
+    for thing in range( moviesClass.totalMovies() ):
+        Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
         command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
@@ -856,33 +856,54 @@ def displayMovie(movie):
         global state
         state = 'PurchaseTickets'
         mainMenu()
+    def forward_self():
+        display_frame.destroy()
+        global movieState
+        state = 'Display'
+        mainMenu()
+
+    def upVote():
+        upVotes = int(moviesClass.movieObjects[movie].getUpvotes()) + 1
+        totalVotes = int(moviesClass.movieObjects[movie].getTotalVotes()) + 1
+        moviesClass.movieObjects[movie].setUpvotes(str(upVotes))
+        moviesClass.movieObjects[movie].setTotalVotes(str(totalVotes))
+        moviesClass.updateMovie()
+        forward_self()
+
+    def downVote():   
+        totalVotes = int(moviesClass.movieObjects[movie].getTotalVotes()) + 1
+        moviesClass.movieObjects[movie].setTotalVotes(str(totalVotes))
+        moviesClass.updateMovie()
+        forward_self()
+
+
     display_frame = tk.Frame(root)
 
 
     #messages
-    message = tk.Label(display_frame, text= f'Movie: {movies[movie]}', font=('Bold',12))
+    message = tk.Label(display_frame, text= f'Movie: {moviesClass.movieObjects[movie].getName()}', font=('Bold',12))
     message.place(x=100,y=0)
 
-    genre_label = tk.Label(display_frame, text= f"Genre: {Genres[movie]}", font=('Bold',12))
+    genre_label = tk.Label(display_frame, text= f"Genre: {moviesClass.movieObjects[movie].getGenre()}", font=('Bold',12))
     genre_label.place(x=100,y=50)
 
-    director_label = tk.Label(display_frame, text= f"Director: {Directors[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Director: {moviesClass.movieObjects[movie].getDirector()}", font=('Bold',12))
     director_label.place(x=100,y=100)
 
-    director_label = tk.Label(display_frame, text= f"Price: {Price[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Price: {moviesClass.movieObjects[movie].getPrice()}", font=('Bold',12))
     director_label.place(x=100,y=150)
 
-    director_label = tk.Label(display_frame, text= f"Time: {Time[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Time: {moviesClass.movieObjects[movie].getTime()}", font=('Bold',12))
     director_label.place(x=100,y=200)
 
-    rating_label = tk.Label(display_frame, text= f"Rate: {movies[movie]}", font=('Bold',12))
-    rating_label.place(x=350,y=100)
+    rating_label = tk.Label(display_frame, text= f"Rating: {moviesClass.movieObjects[movie].getUpvotes()}/{moviesClass.movieObjects[movie].getTotalVotes()}", font=('Bold',12))
+    rating_label.place(x=350,y=0)
     up_rating_btn = tk.Button(display_frame, text='Up Vote', font=('Bold',12),
-                            bg= '#158aff', fg='white', command=forward_dashboard_page)
-    up_rating_btn.place(x=350, y=150, width=150)  
+                            bg= '#158aff', fg='white', command=upVote )
+    up_rating_btn.place(x=350, y=50, width=150)  
     down_rating_btn = tk.Button(display_frame, text='Down Vote', font=('Bold',12),
-                            bg= '#158aff', fg='white', command=forward_dashboard_page)
-    down_rating_btn.place(x=350, y=200, width=150) 
+                            bg= '#158aff', fg='white', command=downVote )
+    down_rating_btn.place(x=350, y=100, width=150) 
 
 
     #Buttons
@@ -1130,6 +1151,8 @@ with open ("UserDatabase.txt", 'r')as file:
 ########################### Main Loop ###############################################
 updateList()
 login_page()
+moviesClass.loadMovies()
+moviesClass.printMovie()
 
 #state block
 

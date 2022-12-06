@@ -61,13 +61,13 @@ class movie():
         self.time = inputTime
     
     def setUpvotes(self, inputUpvotes):
-        self.time = inputUpvotes
+        self.upvotes = inputUpvotes
 
     def setTotalVotes(self, inputTotalVotes):
-        self.time = inputTotalVotes
+        self.ratingTotal = inputTotalVotes
 
     def setState(self, inputState):
-        self.time = inputState
+        self.state = inputState
 
 ##############################################################################
 ### Movie manipulation functions ###
