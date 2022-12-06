@@ -70,6 +70,23 @@ def findTime(title):
     pos = findMovie(title)
     return movieObjects[pos].getTime()
 
+# More specific setters
+def replaceDirector(title, director):
+    pos = findMovie(title)
+    movieObjects[pos].setDirector(director)
+
+def replaceGenre(title, genre):
+    pos = findMovie(title)
+    movieObjects[pos].setGenre(genre)
+
+def replacePrice(title, price):
+    pos = findMovie(title)
+    movieObjects[pos].setPrice(price)
+
+def replaceTime(title, time):
+    pos = findMovie(title)
+    movieObjects[pos].setTime(time)
+
 # Reads data from MovieDatabase.txt and puts it into movieList
 def loadMovies():
     global movieObjects
@@ -104,7 +121,11 @@ def movieDetails(title):
 # Add a movie into the movie list
 def addMovie(obj):
     global movieObjects
-    movieObjects.append(obj)
+    name = findMovie(obj.getName())
+    if name == None:
+        movieObjects.append(obj)
+    else:
+        print(str(obj.getName()) + " already exists!")
 
 # Delete movie from movie list
 def deleteMovie(title):
@@ -122,6 +143,9 @@ def findMovie(title):
     for n in range(len(movieObjects)):
         if title == (movieObjects[n].getName()).lower():
             return n
+    # movie not found
+    print(str(title) + " was not found")
+    return None
 
 # Print all information in movie object
 def printMovie():
@@ -161,19 +185,23 @@ def updateMovie():
 '''
 def main():
     loadMovies()
-    printMovie()
+    #printMovie()
+    #replaceDirector("avengers2", "Joss Wheden")
+    #replaceGenre("avengers2", "Comedy")
+    #replacePrice("avengers2", "15")
+    #replaceTime("avengers2", ["12:30", "12:45"])
     #print(findMovie("Avengers4"))
     #deleteMovie("Avengers4")
-    movieDetails("avengers")
-    print(findDirector("avengers"))
-    print(findGenre("avengers"))
-    print(findPrice("avengers"))
-    print(findTime("avengers"))
+    #movieDetails("avengers")
+    #print(findDirector("avengers"))
+    #print(findGenre("avengers"))
+    #print(findPrice("avengers"))
+    #print(findTime("avengers"))
     #mat = movieObjects[0].getTime()
     #print(mat)
     #print(str(movieObjects[0].getTime()))
     #updateMovie()
-    #addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "12:00, 3:00, 6:00, 9:00"))
+    addMovie(movie("Avengers5", "Joss Wheden", "Super Hero", "19", "12:00, 3:00, 6:00, 9:00"))
     #printMovie()
     updateMovie()
 
