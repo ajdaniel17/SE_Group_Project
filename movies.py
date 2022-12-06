@@ -76,6 +76,12 @@ class movie():
 movieObjects = []
 
 # More specific getters
+def findName(title):
+    pos = findMovie(title)
+    if pos == None:
+        return
+    return movieObjects[pos].getName()
+
 def findDirector(title):
     pos = findMovie(title)
     if pos == None:
@@ -160,6 +166,9 @@ def replaceState(title, state):
     if pos == None:
         return
     movieObjects[pos].setState(state)
+
+def totalMovies():
+    return len(movieObjects)
 
 # Reads data from MovieDatabase.txt and puts it into movieList
 def loadMovies():
