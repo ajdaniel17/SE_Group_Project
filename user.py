@@ -81,10 +81,10 @@ class User():
 
 
 
-Test = User()
-Test.loaduser("real","PASS")
-print(Test.getname())
-Test.setName("REAL JIBIN")
-print(Test.getname())
-Test.setName("Jibin")
-print(Test.getname())
+# Test = User()
+# Test.loaduser("real","PASS")
+# print(Test.getname())
+# Test.setName("REAL JIBIN")
+# print(Test.getname())
+# Test.setName("Jibin")
+# print(Test.getname())
