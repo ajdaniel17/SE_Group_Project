@@ -57,6 +57,7 @@ movieObjects = []
 def loadMovies():
     global movieObjects
     with open("MovieDatabase.txt") as inputFile:
+        next(inputFile) #skip first line
         for line in inputFile:
             if line != "\n":
                 data = line.split("; ")
@@ -109,6 +110,7 @@ def printMovie():
 def updateMovie():
     global movieObjects
     outputFile = open("MovieDatabase.txt", "w")
+    outputFile.write("(Movie) ; (Director) ; (Genre) ; (Price) ; (Times)\n")
     for n in range(len(movieObjects)):
         mat = movieObjects[n].getTime()
         outputFile.write(movieObjects[n].getName() + "; " 
@@ -122,20 +124,21 @@ def updateMovie():
         outputFile.write("\n")
     outputFile.close()
     
-
+'''
 def main():
     loadMovies()
     printMovie()
     print(findMovie("Avengers4"))
-    #deleteMovie("Avengers4")
+    deleteMovie("Avengers4")
     #mat = movieObjects[0].getTime()
     #print(mat)
     #print(str(movieObjects[0].getTime()))
     #updateMovie()
-    #addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "[12:00, 3:00, 6:00, 9:00]"))
+    #addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "12:00, 3:00, 6:00, 9:00"))
     #printMovie()
-    #updateMovie()
+    updateMovie()
 
 
 if __name__ == "__main__":
     main()
+'''
