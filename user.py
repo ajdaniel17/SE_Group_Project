@@ -37,6 +37,10 @@ class User():
         print("updated user database")
         newdata = ','.join([self.email,self.password,self.name,self.address,self.pnumber,self.type])
         newdata = newdata + ','
+        row , col = self.MovieList.shape
+
+        for i in range(row):
+            newdata = newdata + self.MovieList[i][0] + ','+ self.MovieList[i][1] + ','
         f = open('UserDatabase.txt','r')
         filedata = f.read()
         f.seek(0)
@@ -80,21 +84,45 @@ class User():
     def setName(self, newname):
         self.name = newname
         self.update()
+        return True
+
     def setPassword(self, newpass):
         self.password=newpass
         self.update()
+        return True
+
     def setAddress(self, newadd):
         self.address=newadd
         self.update()
+        return True
+
     def setPhone(self, newphone):
         self.pnumber=newphone  
         self.update()
+        return True
+
+    def setMovie(self,moviename,num):
+        row , col = self.MovieList.shape
+        for i in range(row):
+            if self.MovieList[i][0] == moviename:
+                temp = int(self.MovieList[i][1])
+                temp += num
+                self.MovieList[i][1] = str(temp)
+                self.update()
+                return True
+        temp = [moviename,num]
+        self.MovieList = np.append(self.MovieList,np.array([temp]),0)
+        self.update()
+        return True
+        
 
 
 
 # Test = User()
 # Test.loaduser("real","PASS")
-# print(Test.getname())
+# print(Test.getMovieTicket())
+# Test.setMovie("Thor3",3)
+# print(Test.getMovieTicket())
 # Test.setName("REAL JIBIN")
 # print(Test.getname())
 # Test.setName("Jibin")
