@@ -10,6 +10,7 @@ from tkinter import ttk
 import user
 import formatCheck
 import random
+import numpy as np
 
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
