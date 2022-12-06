@@ -11,6 +11,7 @@ import user
 import formatCheck
 import random
 import numpy as np
+import moviesClass
 
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
@@ -42,8 +43,6 @@ upcommingTime = ["12:00","11:00","10:00","9:00","8:00"]
 
 
 numMoviesSold=0
-
-
 
 #################################   File stuff    #########################################################
 def updateList():
@@ -104,7 +103,7 @@ def register_account(email, password,username,address,pnumber):
     except Exception as error:    
         return False
 
-def Purchase_Box(num):
+def Purchase_Box(num, nameThing):
     message_frame = tk.Frame(root, relief=tk.SOLID, highlightthickness=2,highlightbackground='gray')
 
     close_btn = tk.Button(message_frame, text='X', font=('Bold',12), bd=0,
@@ -118,7 +117,7 @@ def Purchase_Box(num):
     global numMoviesSold
     numMoviesSold=numMoviesSold + int(num)
     print(f"Total Tickets sold is: {numMoviesSold}")
-
+    print(f"movie is {nameThing}")
     message_frame.place(x=40,y=100, width=230, height=180)
 
 
@@ -176,23 +175,11 @@ def AdminDashboard():
         state = 'EditMovieList'
         mainMenu()
 
-    """    
-    def forward_upcomming_page():
+    def forward_viewStats():
         display_frame.destroy()
         global state
-        state = 'UpcomingMovies'
-        mainMenu()
-    def forward_current_page():
-        display_frame.destroy()
-        global state
-        state = 'CurrentMovies'
-        mainMenu()    
-    def forward_search_page():
-        display_frame.destroy()
-        global state
-        state = 'SearchMovie'
-        mainMenu()   
-    """    
+        state = 'viewStats'
+        mainMenu()       
 
     display_frame = tk.Frame(root)
 
@@ -210,10 +197,11 @@ def AdminDashboard():
     AddRemove_btn.place(x=100, y=150, width=150)   
     Edit_btn = tk.Button(display_frame, text='Add Details',command=forward_Edit, font=('Bold',12),
                             bg= 'green', fg='white', )
-    Edit_btn.place(x=100, y=250, width=150)   
-    search_btn = tk.Button(display_frame, text='View stats', font=('Bold',12),
-                            bg= 'green', fg='white', command=forward_Edit)
-    search_btn.place(x=100, y=350, width=150)   
+    Edit_btn.place(x=100, y=250, width=150)  
+
+    view_stats_btn = tk.Button(display_frame, text='View stats', font=('Bold',12),
+                            bg= 'green', fg='white', command=forward_viewStats)
+    view_stats_btn.place(x=100, y=350, width=150)   
 
     logout_btn = tk.Button(display_frame, text='Logout',command=logout, font=('Bold',12),
                             bg= 'red', fg='black', )
@@ -431,6 +419,55 @@ def EditMovie(movie):
     print(Customer.getname())
 
 
+def viewStats():
+    def Forward_AdminDashboard():
+        display_frame.destroy()
+        global state
+        state = 'AdminDashboard'
+        mainMenu()
+    def forward_self():
+        display_frame.destroy()
+        global movieState
+        state = 'displayInfo'
+        mainMenu()
+
+
+
+    display_frame = tk.Frame(root)
+
+    #Labels
+    email_lb = tk.Label(display_frame, text= f'On this page, you can view stats ',
+     font=('Bold',12))
+    email_lb.place(x=100,y=0)
+
+    email_lb = tk.Label(display_frame, text= f'Welcome: {Customer.getemail()} ', font=('Bold',12))
+    email_lb.place(x=100,y=100)
+    
+    tempName=Customer.getname()
+    name_lb = tk.Label(display_frame, text= f"Name: {Customer.getname()}", font=('Bold',12))
+    name_lb.place(x=100,y=150)
+    
+
+    address_lb =tk.Label(display_frame, text=f'Adress: {Customer.getaddress()}', font=('Bold',12))
+    address_lb.place(x=100, y=200)
+  
+
+    phone_lb =tk.Label(display_frame, text= f'Phone #: {Customer.getpnumber()}', font=('Bold',12))
+    phone_lb.place(x=100, y=250) 
+
+    password_lb =tk.Label(display_frame, text= f'Password: {Customer.getpassword()}', font=('Bold',12))
+    password_lb.place(x=100, y=300) 
+
+    dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=Forward_AdminDashboard, font=('Bold',12),
+                            bg= 'blue', fg='white', )
+    dash_btn.place(x=100, y=400, width=150)  
+
+    display_frame.pack(pady=10)
+    display_frame.pack_propagate(False)
+    display_frame.configure(height=600, width=1000)
+    print(Customer.getname())       
+
+
 ################################## Main User #########################
 def dashboard():
     def logout():
@@ -638,10 +675,6 @@ def displayUpcommingMovie(movie):
                             bg= '#158aff', fg='white', command=forward_dashboard_page)
     return_to_dashboard.place(x=100, y=300, width=150)  
 
-    purchase_ticket = tk.Button(display_frame, text='Purchase Ticket', font=('Bold',12),
-                            bg= 'green', fg='white', command=forward_purchase_page)
-    purchase_ticket.place(x=100, y=400, width=150)   
-
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
 
@@ -673,28 +706,15 @@ def searchMovie():
         
     display_frame = tk.Frame(root)
 
-    #messages
-    message = tk.Label(display_frame, text= f'Purchase Tickets', font=('Bold',12))
-    message.place(x=100,y=0)
+    search_movie_lb =tk.Label(display_frame, text='Search movie       \n\nEnter movie name below:', font=('Bold',12))
+    search_movie_lb.place(x=100, y=140) 
 
-    summaryText="Here you may purchase tickets"
-    sumary = tk.Label(display_frame, text= summaryText, font=('Bold',12))
-    sumary.place(x=100,y=50)
-
-    #Buttons
-    #search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
-     #                       bg= 'green', fg='white', )
-    #search_btn.place(x=0, y=300, width=150)  
-    # Display text message 
-    search_movie_lb =tk.Label(display_frame, text='Search movie', font=('Bold',12))
-    search_movie_lb.place(x=100, y=150) 
-
-    #text entry box
+    #Movie entry
     search_movie = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')
     search_movie.place(x=100, y=200, width=250, height=30) 
 
-    #actual search button
+    #Search for movie button
     Search_btn = tk.Button(display_frame, text='Search',command=verify, font=('Bold',12),
                             bg= 'green', fg='black', )
     Search_btn.place(x=100, y=300, width=150)  
@@ -730,7 +750,6 @@ def displayInfo():
 
     def update_List():
         
-        
         if(name_entry.get()!='' ):
             Customer.setName(str(name_entry.get()))
 
@@ -739,26 +758,21 @@ def displayInfo():
 
         if(phone_entry.get()!='' ):
             Customer.setPhone(str(phone_entry.get()))
-
+        
         if(password_entry.get()!='' ):
             Customer.setPassword(str(password_entry.get()))    
         forward_self()    # this ensures that the list updates in real time
 
-
-
+    #Display stuff
     display_frame = tk.Frame(root)
 
-    #Labels
-    email_lb = tk.Label(display_frame, text= f'On this page,\nYou can view and edit your info ',
-     font=('Bold',12))
+    email_lb = tk.Label(display_frame, text= f'Welcome: {Customer.getemail()} ', font=('Bold',12))
     email_lb.place(x=100,y=0)
 
-    email_lb = tk.Label(display_frame, text= f'Welcome: {Customer.getemail()} ', font=('Bold',12))
-    email_lb.place(x=100,y=100)
-    
-   
+    email_lb = tk.Label(display_frame, text= f'On this page,\n\nYou can view and edit your info ',
+     font=('Bold',12))
+    email_lb.place(x=100,y=50)
 
-    tempName=Customer.getname()
     name_lb = tk.Label(display_frame, text= f"Name: {Customer.getname()}", font=('Bold',12))
     name_lb.place(x=100,y=150)
     name_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
@@ -788,7 +802,6 @@ def displayInfo():
                             bg= 'green', fg='black', )
     dash_btn.place(x=100, y=350, width=150)
 
-    #Dashboard button
     dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
                             bg= 'blue', fg='white', )
     dash_btn.place(x=100, y=400, width=150)  
@@ -845,8 +858,6 @@ def displayMovie(movie):
         mainMenu()
     display_frame = tk.Frame(root)
 
-#Directors= ["james","Marvel","james","Lucas","yes"]
-#Genres= ["Action","Action","Action","Action","Action"]
 
     #messages
     message = tk.Label(display_frame, text= f'Movie: {movies[movie]}', font=('Bold',12))
@@ -863,6 +874,17 @@ def displayMovie(movie):
 
     director_label = tk.Label(display_frame, text= f"Time: {Time[movie]}", font=('Bold',12))
     director_label.place(x=100,y=200)
+
+    rating_label = tk.Label(display_frame, text= f"Rate: {movies[movie]}", font=('Bold',12))
+    rating_label.place(x=350,y=100)
+    up_rating_btn = tk.Button(display_frame, text='Up Vote', font=('Bold',12),
+                            bg= '#158aff', fg='white', command=forward_dashboard_page)
+    up_rating_btn.place(x=350, y=150, width=150)  
+    down_rating_btn = tk.Button(display_frame, text='Down Vote', font=('Bold',12),
+                            bg= '#158aff', fg='white', command=forward_dashboard_page)
+    down_rating_btn.place(x=350, y=200, width=150) 
+
+
     #Buttons
     return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
                             bg= '#158aff', fg='white', command=forward_dashboard_page)
@@ -872,16 +894,13 @@ def displayMovie(movie):
                             bg= 'green', fg='white', command=forward_purchase_page)
     purchase_ticket.place(x=100, y=400, width=150)   
 
-
-
-
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
 
     display_frame.configure(height=600 , width=1000)
     print(Customer.getname())
 
-def purchaseTickets():
+def purchaseTickets(CurrentMovie):
     def forward_Dashboard():
         display_frame.destroy()
         global state
@@ -893,7 +912,7 @@ def purchaseTickets():
         if int(purchase_entry.get()) <=6:
             if int(purchase_entry.get()) > 0:
                 if(formatCheck.creditCardCheck(credit_entry.get())):
-                    Purchase_Box( int(purchase_entry.get())   ) 
+                    Purchase_Box( int(purchase_entry.get()),  movies[CurrentMovie]  ) 
                 else:
                     message_box(msg= "Invalid Credit\nCard number")     
 
@@ -935,11 +954,6 @@ def purchaseTickets():
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
     print(Customer.getname())        
-
-
-
-
-
 
 ##########################################Account Stuff below#########################################################
 def login_page():
@@ -1113,9 +1127,6 @@ with open ("UserDatabase.txt", 'r')as file:
     file.close()
     pass
 
-
-
-
 ########################### Main Loop ###############################################
 updateList()
 login_page()
@@ -1142,7 +1153,10 @@ def mainMenu():
         EditMovieList()        
     elif state == "EditMovie":
         print("Admin Edit State")
-        EditMovie(movieState)         
+        EditMovie(movieState) 
+    elif state == "viewStats":
+        print("Admin Edit State")
+        viewStats()             
     ####################Regular People#################   
     
     #################### Dashboard ####################
@@ -1155,16 +1169,16 @@ def mainMenu():
     elif state == "UpcomingMovies":
         print("Upcoming movie State")
         upcomingMovies()
-    elif state == "displayUpcommingMovie":
+    elif state == "displayUpcommingMovie":  #Child function of Upcomming movies
         print("Upcoming movie State")
         displayUpcommingMovie(movieState)
-    elif state == "SearchMovie":
+    elif state == "SearchMovie":            
         print("Search movie State")  
         searchMovie()  
-    elif state == "displayInfo":
+    elif state == "displayInfo":            #Child function Current Movies and SearchMovie
         print("displayInfo state") 
         displayInfo()   
-    elif state =="showPurchases":
+    elif state =="showPurchases":           # Child function of displayInfo
         print("Showing purchases state") 
         showPurchases()    
      #################### Child functions ####################    
@@ -1173,9 +1187,9 @@ def mainMenu():
         displayMovie(movieState)
     elif state == "PurchaseTickets":
         print("Purchase movie State")
-        purchaseTickets()
+        purchaseTickets(movieState)
     else:
-        print("Please choose correct answer")
+        print("Crashed")
 mainMenu()
 
 
