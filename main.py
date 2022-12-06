@@ -9,12 +9,13 @@ from tkinter import *
 from tkinter import ttk
 import user
 import formatCheck
+import random
 
 Accounts= ["Admin", "AdminPass"] 
 root = tk.Tk()
 #              Xaxis, Yaxis
 root.geometry('1000x600')
-root.title('Tkinter hub')
+root.title('Movie Booking system')
 
 global startvar
 
@@ -104,7 +105,9 @@ def Purchase_Box(num):
                             command=lambda: message_frame.destroy())
     close_btn.pack(side=tk.TOP, anchor=tk.E)
 
-    message_lb = tk.Label(message_frame, text = f'You have purchased\n {num} tickets', font=('Bold',15) )
+    rando = random.randint(1000,9999)
+    message_lb = tk.Label(message_frame, text = f'You have purchased\n {num} tickets\n Confirmation#\n {rando}',
+     font=('Bold',15) )
     message_lb.pack(pady=20)
     global numMoviesSold
     numMoviesSold=numMoviesSold + int(num)
@@ -202,7 +205,7 @@ def AdminDashboard():
     Edit_btn = tk.Button(display_frame, text='Add Details',command=forward_Edit, font=('Bold',12),
                             bg= 'green', fg='white', )
     Edit_btn.place(x=100, y=250, width=150)   
-    search_btn = tk.Button(display_frame, text='Search Movie', font=('Bold',12),
+    search_btn = tk.Button(display_frame, text='View stats', font=('Bold',12),
                             bg= 'green', fg='white', command=forward_Edit)
     search_btn.place(x=100, y=350, width=150)   
 
