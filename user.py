@@ -25,6 +25,28 @@ class User():
                     return False
             print("USER NOT FOUND!")
             return False    
+
+    def update(self):
+        print("updated user database")
+        newdata = ','.join([self.email,self.password,self.name,self.address,self.pnumber,self.type])
+        f = open('UserDatabase.txt','r')
+        filedata = f.read()
+        f.seek(0)
+        Lines = f.readlines()
+
+        for line in Lines:
+            data = line.split(",")
+            if data[0] == self.email:
+                olddata = line.rstrip()
+        f.close()
+
+        newdata = filedata.replace(olddata,newdata)
+
+        f = open('UserDatabase.txt','w')
+        f.write(newdata)
+        f.close()
+
+                
 ###########################  Getters ############################
     def getname(self):
         return(self.name)
@@ -44,19 +66,25 @@ class User():
     def gettype(self):
         return(self.type)
 ######################### Setter ##########################       
-    def setName(obj, namey):
-        obj.name=namey
-    def setEmail(obj, namey):
-        obj.email=namey
-    def setPassword(obj, namey):
-        obj.password=namey
-    def setAddress(obj, namey):
-        obj.address=namey
-    def setPhone(obj, namey):
-        obj.pnumber=namey    
+    def setName(self, newname):
+        self.name = newname
+        self.update()
+    def setPassword(self, newpass):
+        self.password=newpass
+        self.update()
+    def setAddress(self, newadd):
+        self.address=newadd
+        self.update()
+    def setPhone(self, newphone):
+        self.pnumber=newphone  
+        self.update()
 
 
 
-# Test = User()
-# Test.loaduser("real@email.com","PASS")
-# print(Test.getname())
+Test = User()
+Test.loaduser("real","PASS")
+print(Test.getname())
+Test.setName("REAL JIBIN")
+print(Test.getname())
+Test.setName("Jibin")
+print(Test.getname())
