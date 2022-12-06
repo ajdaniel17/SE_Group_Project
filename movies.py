@@ -11,7 +11,6 @@ class movie():
             mat.append(timeData[n])
             
         self.time = mat
-        #self.position = 0 # for database
     
     # Getters
     def getName(self):
@@ -94,11 +93,17 @@ def printMovie():
     global movieObjects
     print("\n\n***Movies***")
     for n in range(len(movieObjects)):
+        mat = movieObjects[n].getTime()
         print("Name: " + movieObjects[n].getName() + 
         "\nDirector: " + movieObjects[n].getDirector() + 
         "\nGenre: " + movieObjects[n].getGenre() + 
         "\nPrice: " + movieObjects[n].getPrice() + 
-        "\nTimes: " + str(movieObjects[n].getTime()) + "\n------")
+        "\nTimes: ", end = "")
+        for i in range(len(mat)):
+            print(str(mat[i]), end="") 
+            if i < len(mat) - 1:
+                print(", ", end = "")
+        print("\n------")
 
 # Writes to output file
 def updateMovie():
@@ -117,16 +122,16 @@ def updateMovie():
         outputFile.write("\n")
     outputFile.close()
     
-'''
+
 def main():
     loadMovies()
     printMovie()
     print(findMovie("Avengers4"))
-    deleteMovie("Avengers4")
+    #deleteMovie("Avengers4")
     #mat = movieObjects[0].getTime()
     #print(mat)
     #print(str(movieObjects[0].getTime()))
-    updateMovie()
+    #updateMovie()
     #addMovie(movie("Avengers4", "Joss Wheden4", "Super Hero4", "15", "[12:00, 3:00, 6:00, 9:00]"))
     #printMovie()
     #updateMovie()
@@ -134,4 +139,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-'''
