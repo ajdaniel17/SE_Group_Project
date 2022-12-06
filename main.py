@@ -32,6 +32,10 @@ Directors= ["Joss Wheden","Jon Favereau","Keneth Brenagh","George Lucas","Chris 
 Genres= ["Super Hero","Super Hero","Super Hero","Sci Fi","Fantasy"]
 Price = [12,11,10,9,8]
 Time = ["12:00","11:00","10:00","9:00","8:00"]
+##########################  Upcomming ,movies
+upcomingMoviesList= ["Avengers 2","Iron Man 2","Thor 2","Star Wars 2","Harry Potter 2"]
+
+
 
 numMoviesSold=0
 
@@ -588,9 +592,9 @@ def upcomingMovies():
     font=('Bold',12)).grid(row=0, column=2, pady=10,padx=10 )
     #message.place(x=120,y=0)
     
-    global movies
-    for thing in range( len(movies) ):
-        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+    global upcomingMoviesList
+    for thing in range( len(upcomingMoviesList) ):
+        Button(second_frame, text = f'{thing} {upcomingMoviesList[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
