@@ -10,6 +10,13 @@ class User():
         self.MovieList = np.empty((0,2),str)
     
     def loaduser(self,em,pa):
+        self.password = ""
+        self.email = ""
+        self.address = ""
+        self.name = ""
+        self.pnumber = ""
+        self.type = ""
+        self.MovieList = np.empty((0,2),str)
         with open('UserDatabase.txt') as f:
             for line in f:
                 data = line.split(",")
@@ -119,6 +126,8 @@ class User():
 
 
 # Test = User()
+# Test.loaduser("real","PASS")
+# print(Test.getMovieTicket())
 # Test.loaduser("real","PASS")
 # print(Test.getMovieTicket())
 # Test.setMovie("Thor3",3)

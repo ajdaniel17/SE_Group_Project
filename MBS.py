@@ -811,12 +811,13 @@ def showPurchases():
     email_lb.place(x=100,y=100) 
 
     row, col = (Customer.getMovieTicket()).shape
+    print(row)
     ticket_lb = []
     for i in range(row):
         ticket_lb.append(tk.Label(display_frame,text= (Customer.getMovieTicket())[i][0] + ' : ' + (Customer.getMovieTicket())[i][1], font=('Bold',12)))
         ticket_lb[i].place(x=100,y=100+(20*(i+1)))
     ticket_lb.clear()
-    print(ticket_lb)
+    # print(ticket_lb)
     #Dashboard button
     dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
                             bg= 'blue', fg='white', )
