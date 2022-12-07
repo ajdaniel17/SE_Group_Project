@@ -1,5 +1,5 @@
 (Movie) ; (Director) ; (Genre) ; (Price) ; (Times) ; (Upvotes) ; (Total Votes) ; (State [upcomming/current])
-Avengers; Bob; Super Hero; 7; 2; 136; 149; 1
+Avengers; Bob; Super Hero; 7; 2; 137; 150; 1
 Iron Man; Josh Wheden; Super Hero; 7; 7; 0; 0; 1
 Thor; John Faveruogh; Super Hero; 5; 5:00; 0; 0; 1
 Avengers2; Will Wheden; SuperHero; 3; 3; 0; 0; 0
@@ -7,5 +7,5 @@ Iron Man 2; William; Super Hero; 3; 3; 0; 0; 0
 Thor 2; jack; Super Hero; 3; 3; 0; 0; 0
 Star Wars; George; Sci Fi; 5; 5; 0; 0; 1
 Star Wars 2; George; Sci Fi; 5; 5; 0; 0; 0
-Magic Mike; s; Adult; 4; 4; 1; 1; 1
+Magic Mike; s; Adult; 4; 4; 3; 4; 1
 Magic Mike 2; s; Adult; 4; 4; 0; 0; 0

@@ -235,7 +235,7 @@ def findMovie(title):
         if title == (movieObjects[n].getName()).lower():
             return n
     # movie not found
-    print(str(title) + " was not found")
+    #print(str(title) + " was not found")
     return None
 
 # Print all information in movie object

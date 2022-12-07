@@ -51,9 +51,7 @@ def searchList(varNum, stringThing):
         size = len(Accounts)
         for x in range(size):
             if (x % 2 ==varNum):
-                print(Accounts[x])
                 if(Accounts[x]==stringThing):
-                    print("Found string")
                     return 1;
     return 0;        
     file.close()
@@ -64,7 +62,6 @@ def verifyAccount(username, password):
     if (x % 2 ==0):
       if(Accounts[x]==username):
         if(Accounts[x+1]==password):
-          print("Found string")
           return 1
         else:  
           return 0
@@ -103,8 +100,6 @@ def Purchase_Box(num, nameThing):
     global numMoviesSold
     numMoviesSold=numMoviesSold + int(num)
     Customer.setMovie(nameThing,num)
-    print(f"Total Tickets sold is: {numMoviesSold}")
-    print(f"movie is {nameThing}")
     message_frame.place(x=40,y=100, width=230, height=180)
 
 
@@ -141,7 +136,6 @@ def displayQR():
 
 ################################ Admin ###########################
 def AdminDashboard():
-    print("Welcome admin")
     def logout():
         display_frame.destroy()
         global state
@@ -194,8 +188,6 @@ def AdminDashboard():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())
-
 def AddRemoveMovie():
     def forward_Admin_dashboard_page():
         display_frame.destroy()
@@ -311,7 +303,6 @@ def AddRemoveMovie():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())        
 
 def EditMovieList():
     def Forward_AdminDashboard():
@@ -360,7 +351,6 @@ def EditMovieList():
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= Forward_AdminDashboard).grid(row=thing+1, column=0, pady=10,padx=10 )
-    print(Customer.getname())
 
 def EditMovie(movie):
     def forward_admin_dashboard_page():
@@ -374,7 +364,6 @@ def EditMovie(movie):
         state = 'EditMovie'
         mainMenu()
     def updateInfo():
-        print("Stuff")
         moviesClass.movieObjects[movie].setTime( str(time_entry.get()) )
         moviesClass.movieObjects[movie].setPrice(str(price_entry.get()))
         moviesClass.updateMovie()
@@ -414,7 +403,6 @@ def EditMovie(movie):
     display_frame.pack_propagate(False)
 
     display_frame.configure(height=600 , width=1000)
-    print(Customer.getname())
 
 
 def viewStats():
@@ -451,7 +439,6 @@ def viewStats():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())       
 
 ################################## Main User #########################
 def dashboard():
@@ -521,7 +508,6 @@ def dashboard():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())
 
 def currentMovies():
     def forward_dashboard_page():
@@ -568,12 +554,11 @@ def currentMovies():
     global movies
     for thing in range( moviesClass.totalMovies() ):
         if(moviesClass.movieObjects[thing].getState() == "1"):    
-            Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
+            Button(second_frame, text = f' {moviesClass.movieObjects[thing].getName() }',
             command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
-    print(Customer.getname())
 
 def upcomingMovies():
     def forward_dashboard_page():
@@ -619,12 +604,11 @@ def upcomingMovies():
     
     for thing in range( moviesClass.totalMovies() ):
         if(moviesClass.movieObjects[thing].getState() == "0"):    
-            Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
+            Button(second_frame, text = f' {moviesClass.movieObjects[thing].getName() }',
             command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
-    print(Customer.getname())
 
 def displayUpcommingMovie(movie):
     def forward_dashboard_page():
@@ -664,7 +648,6 @@ def displayUpcommingMovie(movie):
     display_frame.pack_propagate(False)
 
     display_frame.configure(height=600 , width=1000)
-    print(Customer.getname())
 
 
 def searchMovie():
@@ -692,10 +675,8 @@ def searchMovie():
        if search_movie.get() != '':
         if(moviesClass.findMovie(search_movie.get()) != None      ):
             if( moviesClass.findState(str(search_movie.get())) == "1"):
-                print("Forwarding display page")
                 forward_display_page(  moviesClass.findMovie(search_movie.get()) )
             else:
-                print("Forwarding upcomming display page")
                 forward_upcomming_display_page(moviesClass.findMovie(search_movie.get()))
         else:
             message_box(msg='No such movie exists')    
@@ -723,7 +704,6 @@ def searchMovie():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())        
 
 def displayInfo():
     def forward_dashboard_page():
@@ -805,7 +785,6 @@ def displayInfo():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())            
 
 def showPurchases():
     def forward_dashboard_page():
@@ -843,7 +822,6 @@ def showPurchases():
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())           
 
 def displayMovie(movie):
     def forward_dashboard_page():
@@ -917,7 +895,6 @@ def displayMovie(movie):
     display_frame.pack_propagate(False)
 
     display_frame.configure(height=600 , width=1000)
-    print(Customer.getname())
 
 def purchaseTickets(CurrentMovie):
     def forward_Dashboard():
@@ -937,10 +914,8 @@ def purchaseTickets(CurrentMovie):
 
             else:
                 message_box(msg= "Invalid amount")  
-                print("Invalid Amount")   
         else:     
             message_box(msg= "You can only\nbook 6 tickets/nat a time")
-            print("only purchase 6")
     display_frame = tk.Frame( )
 
     #messages
@@ -972,7 +947,6 @@ def purchaseTickets(CurrentMovie):
     display_frame.pack(pady=10)
     display_frame.pack_propagate(False)
     display_frame.configure(height=600, width=1000)
-    print(Customer.getname())        
 
 ##########################################Account Stuff below#########################################################
 def login_page():
@@ -999,7 +973,6 @@ def login_page():
         if username.get() !='':
             if password.get() !='':
                 if(Customer.loaduser(username.get(), password.get())):
-                    print("Sucessfully Logged in")
                     login_frame.destroy()
                     if(Customer.gettype() == "Admin"):
                         forward_admin_dashboard()
@@ -1060,7 +1033,6 @@ def register_page():
                         # send a 0 for passwords, 
                         if searchList(0, username.get()) ==0 :
                             response = register_account(email=email.get(), password= password.get(),username = username.get(),address=address.get(),pnumber=pnumber.get())
-                            print("running register")
                             if response:
                                 username.delete(0, tk.END)
                                 password.delete(0, tk.END)
@@ -1068,7 +1040,6 @@ def register_page():
                                 address.delete(0,tk.END)
                                 pnumber.delete(0,tk.END)
                                 updateList()
-                                print(Accounts)
                                 repeat_password.delete(0, tk.END)
                                 message_box(msg='Account Created') 
                         else:
@@ -1142,7 +1113,6 @@ def register_page():
 
 with open ("UserDatabase.txt", 'r')as file:
     var=file.read()
-    print(var)
     file.close()
     pass
 
@@ -1156,61 +1126,45 @@ moviesClass.printMovie()
 
 def mainMenu():
     if state == 'Login':
-        print("login State")
         login_page()
     elif state == "Register":
-        print("Register State")
         register_page() 
 
     ####################Admin###################    
     elif state == "AdminDashboard":
-        print("Admin Dashboard State")
         AdminDashboard()
     elif state == "AdminAddRemove":
-        print("Admin Add/Remove State")
         AddRemoveMovie()
     elif state == "EditMovieList":
-        print("Admin Edit List State")
         EditMovieList()        
     elif state == "EditMovie":
-        print("Admin Edit State")
         EditMovie(movieState) 
     elif state == "viewStats":
-        print("Admin Edit State")
         viewStats()             
     ####################Regular People#################   
     
     #################### Dashboard ####################
     elif state == "Dashboard":
-        print("Dashboard State")
         dashboard() 
     elif state == "CurrentMovies":
-        print("Current movie State")
         currentMovies()
     elif state == "UpcomingMovies":
-        print("Upcoming movie State")
         upcomingMovies()
     elif state == "displayUpcommingMovie":  #Child function of Upcomming movies
-        print("Upcoming movie State")
         displayUpcommingMovie(movieState)
     elif state == "SearchMovie":            
-        print("Search movie State")  
         searchMovie()  
     elif state == "displayInfo":            #Child function Current Movies and SearchMovie
-        print("displayInfo state") 
         displayInfo()   
     elif state =="showPurchases":           # Child function of displayInfo
-        print("Showing purchases state") 
         showPurchases()    
      #################### Child functions ####################    
     elif state == "Display":
-        print("Display movie State")
         displayMovie(movieState)
     elif state == "PurchaseTickets":
-        print("Purchase movie State")
         purchaseTickets(movieState)
     else:
-        print("Crashed")
+        print("Goodbye")
 mainMenu()
 
 root.mainloop()
