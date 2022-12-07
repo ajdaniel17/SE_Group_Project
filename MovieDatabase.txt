@@ -1,6 +1,10 @@
 (Movie) ; (Director) ; (Genre) ; (Price) ; (Times) ; (Upvotes) ; (Total Votes) ; (State [upcomming/current])
-Avengers; Bob; Super Hero; 12; 12:00, 3:00, 6:00, 9:00, 2:30; 114; 122; 1
-Avengers2; Joss Wheden; Comedy; 15; 12:30, 12:45; 95; 100; 1
-Avengers3; Joss Wheden3; Super Hero3; 14; 12:00, 3:00, 6:00, 9:00; 95; 100; 1
-Avengers4; Joss Wheden4; Super Hero4; 15; 12:00, 3:00, 6:00, 9:00; 95; 100; 1
-Avengers5; Joss Wheden; Super Hero; 19; 12:00, 3:00, 6:00, 9:00; 95; 100; 1
+Avengers; Bob; Super Hero; 12; 12:00, 3:00, 6:00, 9:00, 2:30; 132; 145; 1
+Iron Man; Josh Wheden; Super Hero; 5; 5:00; 0; 0; 1
+Thor; John Faveruogh; Super Hero; 5; 5:00; 0; 0; 1
+Avengers2; Will Wheden; SuperHero; 3; 3; 0; 0; 0
+Iron Man 2; William; Super Hero; 3; 3; 0; 0; 0
+Thor 2; jack; Super Hero; 3; 3; 0; 0; 0
+Star Wars; George; Sci Fi; 5; 5; 0; 0; 1
+Star Wars 2; George; Sci Fi; 5; 5; 0; 0; 0
+Harry Potter; jk; Magic; 4; 4; 1; 1; 1

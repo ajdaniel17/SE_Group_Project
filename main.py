@@ -29,11 +29,7 @@ Customer = user.User()
 UsersName=''
 
 #########################
-movies= ["Avengers","Iron Man","Thor","Star Wars","Harry Potter"]
-Directors= ["Joss Wheden","Jon Favereau","Keneth Brenagh","George Lucas","Chris Columbus"]
-Genres= ["Super Hero","Super Hero","Super Hero","Sci Fi","Fantasy"]
-Price = [12,11,10,9,8]
-Time = ["12:00","11:00","10:00","9:00","8:00"]
+
 ##########################  Upcomming ,movies
 upcomingMoviesList= ["Avengers 2","Iron Man 2","Thor 2","Star Wars 2","Harry Potter 2"]
 upcommingDirectors= ["Joss Wheden","Jon Favereau","Keneth Brenagh","George Lucas","Chris Columbus"]
@@ -225,31 +221,42 @@ def AddRemoveMovie():
         global state
         state = 'Display'
         mainMenu()
-    def verifyAdd():
+    def verifyAddCurrent():
         if search_movie.get() != '':
-            if(search_movie.get() in movies):
+            if( moviesClass.findMovie(search_movie.get()) !=None ):
                 message_box(msg='Movie already Exists!')
             else:
-                movies.append(search_movie.get() )
-                Directors.append(director_entry.get() )
-                Genres.append(genre_entry.get())
-                Price.append(price_entry.get())
-                Time.append(time_entry.get())
+                moviesClass.addMovie(moviesClass.movie(search_movie.get(),
+                director_entry.get(), genre_entry.get(), price_entry.get(),time_entry.get(),'0','0',1 ))
+
+                moviesClass.updateMovie()
+                moviesClass.movieObjects.clear()
+                moviesClass.loadMovies()
                 message_box(msg=f'{ search_movie.get() } \nhas been Added')  
         else:
             message_box(msg='Entry Empty')
+    def verifyAddUpcomming():
+        if search_movie.get() != '':
+            if( moviesClass.findMovie(search_movie.get()) !=None ):
+                message_box(msg='Movie already Exists!')
+            else:
+                moviesClass.addMovie(moviesClass.movie(search_movie.get(),
+                director_entry.get(), genre_entry.get(), price_entry.get(),time_entry.get(),'0','0',0 ))
 
+                moviesClass.updateMovie()
+                moviesClass.movieObjects.clear()
+                moviesClass.loadMovies()
+                message_box(msg=f'{ search_movie.get() } \nhas been Added')  
+        else:
+            message_box(msg='Entry Empty')
     def verifyRemove():
         if search_movie.get() != '':
-            if(search_movie.get() in movies):
-                listIndex= movies.index(search_movie.get())
-                print(f"Index was {listIndex}")
-                movies.pop(listIndex)
-                Directors.pop(listIndex)
-                Genres.pop(listIndex)
-                Price.pop(listIndex)
-                Time.pop(listIndex)
+            if(moviesClass.findMovie(search_movie.get()) !=None ):
+                moviesClass.deleteMovie(search_movie.get())
                 #movies.remove(search_movie.get())
+                moviesClass.updateMovie()
+                moviesClass.movieObjects.clear()
+                moviesClass.loadMovies()
                 message_box(msg=f'{search_movie.get()}\nhas been Removed')  
             else:
                 message_box(msg='No such movie exists')  
@@ -299,9 +306,14 @@ def AddRemoveMovie():
     price_entry.place(x=350, y=250, width=250, height=30)
 
     #actual Add button
-    Add_btn = tk.Button(display_frame, text='Add',command=verifyAdd, font=('Bold',12),
+
+    Add_btn = tk.Button(display_frame, text='Add Current',command=verifyAddCurrent, font=('Bold',12),
                             bg= 'green', fg='black', )
-    Add_btn.place(x=100, y=300, width=150)  
+    Add_btn.place(x=100, y=300, width=150)
+
+    Add_btn = tk.Button(display_frame, text='Add Upcomming',command=verifyAddUpcomming, font=('Bold',12),
+                            bg= 'green', fg='black', )
+    Add_btn.place(x=300, y=300, width=150)  
 
     #actual Remove button
     Remove_btn = tk.Button(display_frame, text='Remove',command=verifyRemove, font=('Bold',12),
@@ -360,8 +372,9 @@ def EditMovieList():
     #message.place(x=120,y=0)
     
     global movies
-    for thing in range( len(movies) ):
-        Button(second_frame, text = f'{thing} {movies[thing] }',command=lambda number=thing: forward_EditMovie(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+    for thing in range( moviesClass.totalMovies() ):
+        Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
+        command=lambda number=thing: forward_EditMovie(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= Forward_AdminDashboard).grid(row=thing+1, column=0, pady=10,padx=10 )
@@ -582,8 +595,9 @@ def currentMovies():
     
     global movies
     for thing in range( moviesClass.totalMovies() ):
-        Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
-        command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+        if(moviesClass.movieObjects[thing].getState() == "1"):    
+            Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
+            command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
@@ -632,8 +646,10 @@ def upcomingMovies():
     #message.place(x=120,y=0)
     
     global upcomingMoviesList
-    for thing in range( len(upcomingMoviesList) ):
-        Button(second_frame, text = f'{thing} {upcomingMoviesList[thing] }',command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
+    for thing in range( moviesClass.totalMovies() ):
+        if(moviesClass.movieObjects[thing].getState() == "0"):    
+            Button(second_frame, text = f'{thing} {moviesClass.movieObjects[thing].getName() }',
+            command=lambda number=thing: display(number) ).grid(row=thing, column=0, pady=10,padx=10 )
 
     Button(second_frame, text = f'Go to Dashboard',bg= '#158aff', fg='black',font= ('Bold'),
                 command= forward_dashboard_page).grid(row=thing+1, column=0, pady=10,padx=10 )
@@ -652,23 +668,21 @@ def displayUpcommingMovie(movie):
         mainMenu()
     display_frame = tk.Frame(root)
 
-#Directors= ["james","Marvel","james","Lucas","yes"]
-#Genres= ["Action","Action","Action","Action","Action"]
 
-    #messages
-    message = tk.Label(display_frame, text= f'Movie: {upcomingMoviesList[movie]}', font=('Bold',12))
+    #messages moviesClass.movieObjects[movie].getTime()
+    message = tk.Label(display_frame, text= f'Movie: {moviesClass.movieObjects[movie].getName()}', font=('Bold',12))
     message.place(x=100,y=0)
 
-    genre_label = tk.Label(display_frame, text= f"Genre: {upcommingGenres[movie]}", font=('Bold',12))
+    genre_label = tk.Label(display_frame, text= f"Genre: {moviesClass.movieObjects[movie].getGenre()}", font=('Bold',12))
     genre_label.place(x=100,y=50)
 
-    director_label = tk.Label(display_frame, text= f"Director: {upcommingDirectors[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Director: {moviesClass.movieObjects[movie].getDirector()}", font=('Bold',12))
     director_label.place(x=100,y=100)
 
-    director_label = tk.Label(display_frame, text= f"Price: {upcommingPrice[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Price: {moviesClass.movieObjects[movie].getPrice()}", font=('Bold',12))
     director_label.place(x=100,y=150)
 
-    director_label = tk.Label(display_frame, text= f"Time: {upcommingTime[movie]}", font=('Bold',12))
+    director_label = tk.Label(display_frame, text= f"Time: {moviesClass.movieObjects[movie].getTime()}", font=('Bold',12))
     director_label.place(x=100,y=200)
     #Buttons
     return_to_dashboard = tk.Button(display_frame, text='Return to Dashboard', font=('Bold',12),
@@ -698,9 +712,9 @@ def searchMovie():
         mainMenu()
     def verify():
        if search_movie.get() != '':
-        if(search_movie.get() in movies):
-            forward_display_page( movies.index(search_movie.get())  )
+        if(moviesClass.findMovie(search_movie.get()) != None      ):
             print("Forwarding display page")
+            forward_display_page(  moviesClass.findMovie(search_movie.get()) )
         else:
             message_box(msg='No such movie exists')    
         
@@ -933,7 +947,7 @@ def purchaseTickets(CurrentMovie):
         if int(purchase_entry.get()) <=6:
             if int(purchase_entry.get()) > 0:
                 if(formatCheck.creditCardCheck(credit_entry.get())):
-                    Purchase_Box( int(purchase_entry.get()),  movies[CurrentMovie]  ) 
+                    Purchase_Box( int(purchase_entry.get()), moviesClass.movieObjects[CurrentMovie].getName()  ) 
                 else:
                     message_box(msg= "Invalid Credit\nCard number")     
 
@@ -957,7 +971,7 @@ def purchaseTickets(CurrentMovie):
                         highlightthickness=2, highlightbackground='gray')
     purchase_entry.place(x=100, y=150, width=250, height=30) 
 
-    credit_lb = tk.Label(display_frame, text= "Enter Credit card", font=('Bold',12))
+    credit_lb = tk.Label(display_frame, text= "Enter 16 digit Credit card #", font=('Bold',12))
     credit_lb.place(x=100,y=200)
     credit_entry = tk.Entry(display_frame, font=('Bold',15), bd=0, highlightcolor='#158aff',
                         highlightthickness=2, highlightbackground='gray')

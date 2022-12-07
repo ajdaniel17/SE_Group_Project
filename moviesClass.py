@@ -187,6 +187,8 @@ def loadMovies():
 # Prints everything in a specified movie
 def movieDetails(title):
     pos = findMovie(title)
+    if pos == None:
+        return
     mat = movieObjects[pos].getTime()
     print("\n------")
     print("Details for " + title + ":")
@@ -279,31 +281,3 @@ def updateMovie():
         + str(movieObjects[n].getState()))
         outputFile.write("\n")
     outputFile.close()
-    
-'''
-def main():
-    loadMovies()
-    printMovie()
-    #replaceDirector("avengers2", "Joss Wheden")
-    #replaceGenre("avengers2", "Comedy")
-    #replacePrice("avengers2", "15")
-    #replaceTime("avengers2", ["12:30", "12:45"])
-    #print(findMovie("Avengers4"))
-    #deleteMovie("Avengers4")
-    #movieDetails("avengers")
-    #print(findDirector("avengers"))
-    #print(findGenre("avengers"))
-    #print(findPrice("avengers"))
-    #print(findTime("avengers"))
-    #mat = movieObjects[0].getTime()
-    #print(mat)
-    #print(str(movieObjects[0].getTime()))
-    #updateMovie()
-    #addMovie(movie("Avengers5", "Joss Wheden", "Super Hero", "19", "12:00, 3:00, 6:00, 9:00"))
-    #printMovie()
-    updateMovie()
-
-
-if __name__ == "__main__":
-    main()
-'''
