@@ -112,6 +112,7 @@ def Purchase_Box(num, nameThing):
     message_lb.pack(pady=20)
     global numMoviesSold
     numMoviesSold=numMoviesSold + int(num)
+    Customer.setMovie(nameThing,num)
     print(f"Total Tickets sold is: {numMoviesSold}")
     print(f"movie is {nameThing}")
     message_frame.place(x=40,y=100, width=230, height=180)
@@ -846,9 +847,13 @@ def showPurchases():
      font=('Bold',12))
     email_lb.place(x=100,y=0)
 
-    email_lb = tk.Label(display_frame, text= f'Welcome: EmailUsername ', font=('Bold',12))
+    email_lb = tk.Label(display_frame, text= f'Welcome:'+ Customer.getname(), font=('Bold',12))
     email_lb.place(x=100,y=100) 
-
+    row, col = (Customer.getMovieTicket()).shape
+    ticket_lb = []
+    for i in range(row):
+        ticket_lb.append(tk.Label(display_frame,text= (Customer.getMovieTicket())[i][0] + ' : ' + (Customer.getMovieTicket())[i][1], font=('Bold',12)))
+        ticket_lb[i].place(x=100,y=100+(20*(i+1)))
     #Dashboard button
     dash_btn = tk.Button(display_frame, text='Go To Dashboard',command=forward_dashboard_page, font=('Bold',12),
                             bg= 'blue', fg='white', )
