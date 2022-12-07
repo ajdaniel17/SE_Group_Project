@@ -811,7 +811,7 @@ def showPurchases():
     email_lb.place(x=100,y=100) 
 
     row, col = (Customer.getMovieTicket()).shape
-    print(row)
+    # print(row)
     ticket_lb = []
     for i in range(row):
         ticket_lb.append(tk.Label(display_frame,text= (Customer.getMovieTicket())[i][0] + ' : ' + (Customer.getMovieTicket())[i][1], font=('Bold',12)))
